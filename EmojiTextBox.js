@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Emoji Text Box
 // @namespace    http://tampermonkey.net/
-// @version      0.11
+// @version      0.12
 // @description  add emoji replece to text box
 // @author       You
 // @match        http://*/*
