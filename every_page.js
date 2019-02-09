@@ -4,10 +4,10 @@ dd = (()=>{
 	const drew_div = document.createElement('div');
 	body.appendChild(drew_div);
 
-	default_width = "10px"
-	default_height = "10px"
+	default_width = "3%"
+	default_height = "3%"
 
-	drew_div.style.position = 'absolute' 
+	drew_div.style.position = 'float' 
 	drew_div.style.right = '0px'
 	drew_div.style.top = '0px' 
 	drew_div.style.width = default_width
@@ -20,12 +20,14 @@ dd = (()=>{
 	}
 
 	drew_div.onmouseenter = ()=>{
-		console.log("enter")
-	drew_div.style.width = "100px"
-	drew_div.style.height = "100px"
+        console.log("enter");
+        drew_div.style.width = "100%";
+        drew_div.style.height = "20%";
 	}
-	drew_div.onmouseexit = ()=>{
-		console.log("exit")
+	drew_div.onmouseleave = ()=>{
+        console.log("exit");
+        drew_div.style.width = default_width;
+        drew_div.style.height = default_height;
 	}
 	
 
