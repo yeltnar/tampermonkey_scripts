@@ -21,6 +21,10 @@ let keyAction = (e)=>{
         open("https://google.com/search"+q);
 
         window.close();
+    }else if( key==="g" ){
+
+    }else{
+        key =""
     }
     console.log("key pressed");
     console.log(key);
