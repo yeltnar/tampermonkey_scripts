@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         open duck in google
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.1.1
 // @description  open duck duck go search in google
 // @author       You
 // @match        https://duckduckgo.com/?q=*
