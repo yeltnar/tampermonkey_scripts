@@ -26,7 +26,7 @@ let long_special_key;
 let keyAction = (e)=>{
     key += e.key;
     if( key===long_special_key ){
-        moveToGoogle();
+        pullAndMoveToGoogle();
     }else if( key===special_key ){
 
     }else{
@@ -37,7 +37,12 @@ let keyAction = (e)=>{
     console.log(e.key);
 };
 
-function moveToGoogle(){
+function pullAndMoveToGoogle(){
+    let q = getQValue();
+    moveToGoogle( q );
+}
+
+function getQValue(){
 
     let search = window.location.search;
 
@@ -63,16 +68,43 @@ function moveToGoogle(){
         return acc;
     }, undefined);
 
+    return q;
+}
+
+function moveToGoogle( q ){
     let google_link = "https://google.com/search?q="+q;
     open(google_link);
-
-    console.log(search_arr);
-
     window.close();
+}
+
+function testAutoMoveToGoogle(){
+
+    const regex_arr = [/^google%3A/, /^g%3A/];
+
+    function testSingleAutoMoveToGoogle( regex ){
+        if( regex.test(q) ){
+            q = q.split(regex).join("");
+            moveToGoogle(q);
+        }
+    }
+    
+    regex_arr.forEach(()=>{
+    })
+
+    let q = getQValue();
+    if( /^google%3A/.test(q) ){
+        q = q.split(/^google%3A/).join("");
+        moveToGoogle(q);
+    }else if( /^g%3A/.test(q) ){
+        q = q.split(/^g%3A/).join("");
+        moveToGoogle(q);
+    }
 }
 
 (function() {
     'use strict';
+
+    testAutoMoveToGoogle();
 
     try{
         // let text = document.querySelectorAll("a.spell")[0].innerText;
