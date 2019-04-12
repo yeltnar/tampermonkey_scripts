@@ -88,7 +88,8 @@ function testAutoMoveToGoogle(){
         }
     }
     
-    regex_arr.forEach(()=>{
+    regex_arr.forEach((cur)=>{
+        testSingleAutoMoveToGoogle( cur )
     });
 }
 
