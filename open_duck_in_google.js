@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         open duck in google gg
 // @namespace    http://tampermonkey.net/
-// @version      0.1.4
+// @version      0.1.5
 // @description  open duck duck go search in google
 // @author       You
 // @match        https://duckduckgo.com/?q=*
@@ -81,15 +81,17 @@ function testAutoMoveToGoogle(){
 
     const regex_arr = [/^google%3A/, /^g%3A/];
 
-    function testSingleAutoMoveToGoogle( regex ){
+    function testSingleAutoMoveToGoogle( regex, q ){
         if( regex.test(q) ){
             q = q.split(regex).join("");
             moveToGoogle(q);
         }
     }
+
+    const q = getQValue();
     
     regex_arr.forEach((cur)=>{
-        testSingleAutoMoveToGoogle( cur )
+        testSingleAutoMoveToGoogle( cur, q )
     });
 }
 
