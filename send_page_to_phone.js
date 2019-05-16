@@ -23,6 +23,7 @@ let last_key="";
            url = encodeURIComponent(url);
            let req_url = `https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush?url=${url}&deviceId=60a30f961e6546798ba899bc6033c33f&apikey=4e5267df11734f0085829a771456ace9`;
            fetch(req_url);
+           last_key=""
         }
     }
 })();
