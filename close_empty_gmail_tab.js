@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Close empty gmail tab
 // @namespace    http://tampermonkey.net/
-// @version      0.0
+// @version      0.1
 // @description  try to take over the world!
 // @author       You
 // @match        https://mail.google.com/mail/*
