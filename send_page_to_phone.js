@@ -22,12 +22,16 @@ let last_key="";
         if( /jjjjj/.test(last_key) ){
            let url = window.location.href;
            url = encodeURIComponent(url);
+
            let apikey = GM_getValue('join_apikey');
            if(apikey===undefined||apikey===null){
                apikey = prompt("enter join api key");
                GM_setValue('join_apikey', apikey);
            }
-           let req_url = `https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush?url=${url}&deviceId=60a30f961e6546798ba899bc6033c33f&apikey=${apikey}`;
+
+           const deviceId = "group.android";
+
+           let req_url = `https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush?url=${url}&deviceId=${deviceId}&apikey=${apikey}`;
            fetch(req_url);
            last_key="";
            console.log("called send to join");
