@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         send page to phone
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.2.1
 // @description  send page to phone
 // @author       You
 // @match        http://*/*
@@ -24,7 +24,7 @@ let last_key="";
            let req_url = `https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush?url=${url}&deviceId=60a30f961e6546798ba899bc6033c33f&apikey=4e5267df11734f0085829a771456ace9`;
            fetch(req_url);
            last_key="";
-           console.log("called send to join);
+           console.log("called send to join");
         }
     }
 })();
