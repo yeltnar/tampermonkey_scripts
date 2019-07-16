@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         open duck in google gg
 // @namespace    http://tampermonkey.net/
-// @version      0.1.5
+// @version      0.1.6
 // @description  open duck duck go search in google
 // @author       You
 // @match        https://duckduckgo.com/?q=*
@@ -74,7 +74,10 @@ function getQValue(){
 function moveToGoogle( q ){
     let google_link = "https://google.com/search?q="+q;
     open(google_link);
-    window.close();
+
+    setTimeout(()=>{
+        window.close()
+    }, 2000);
 }
 
 function testAutoMoveToGoogle(){
