@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         open duck in google gg
 // @namespace    http://tampermonkey.net/
-// @version      0.1.6
+// @version      0.1.7
 // @description  open duck duck go search in google
 // @author       You
 // @match        https://duckduckgo.com/?q=*
@@ -16,11 +16,21 @@ const number_of_prefrences = 2;
 let long_special_key;
 
 (()=>{
+    // add the sepcial key the special number of times
     const arr = [];
     for(let i=0; i<number_of_prefrences; i++){
         arr.push(special_key);
     }
     long_special_key = arr.join("");
+
+
+    // check if this new long key is the start of the current search
+    const q = getQValue();
+    if( q.indexOf(long_special_key+"+")===0 ){
+        const new_q = q.split(new RegExp(`^${long_special_key}+`))[1];
+        debugger;
+        moveToGoogle( new_q );
+    }
 })();
 
 let keyAction = (e)=>{
