@@ -28,7 +28,6 @@ let long_special_key;
     const q = getQValue();
     if( q.indexOf(long_special_key+"+")===0 ){
         const new_q = q.split(new RegExp(`^${long_special_key}+`))[1];
-        debugger;
         moveToGoogle( new_q );
     }
 })();
