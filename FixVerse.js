@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Fix Verse
 // @namespace    http://tampermonkey.net/
-// @version      0.1.5
+// @version      0.1.6
 // @description  reload verse if it is not populated
 // @author       You
 // @match        https://mail.notes.na.collabserv.com/*
