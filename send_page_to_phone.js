@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         send page to phone
 // @namespace    http://tampermonkey.net/
-// @version      0.2.2
+// @version      0.2.3
 // @description  send page to phone
 // @author       You
 // @match        http://*/*
@@ -39,8 +39,10 @@ let last_key="";
         }
 
         const deviceId = "group.android";
+        const title = "Push from browser";
 
-        let req_url = `https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush?url=${url}&deviceId=${deviceId}&apikey=${apikey}`;
+        let req_url = `https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush?url=${url}&title=${title}&deviceId=${deviceId}&apikey=${apikey}`;
+        console.log({req_url});
         fetch(req_url);
         last_key="";
         console.log("called send to join");
