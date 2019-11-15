@@ -4,7 +4,7 @@
 // @version      0.1.7
 // @description  open duck duck go search in google
 // @author       You
-// @match        https://duckduckgo.com/?q=*
+// @match        https://duckduckgo.com/?*q=*
 // @grant        window.close
 // @run-at document-start
 // ==/UserScript==
