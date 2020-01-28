@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         open duck in google gg
 // @namespace    http://tampermonkey.net/
-// @version      0.1.9
+// @version      0.1.10
 // @description  open duck duck go search in google
 // @author       You
 // @match        https://duckduckgo.com/?*q=*
 // @match        https://duckduckgo.com/lite/?q=*
+// @match        https://duckduckgo.com/lite?q=*
 // @grant        window.close
 // @run-at document-start
 // ==/UserScript==
