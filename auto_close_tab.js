@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         auto close tab
 // @namespace    http://tampermonkey.net/
-// @version      0.1.1
+// @version      0.1.2
 // @description  try to take over the world!
 // @author       You
 // @match        https://duckduckgo.com/*
 // @match        https://google.com/*
 // @match        https://www.google.com/*
-// @exclude      https://www.google.com/maps/*
+// @exclude      https://www.google.com/maps*
 // @grant        window.close
 // ==/UserScript==
 
