@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         video settings
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  try to take over the world!
 // @author       You
 // @match        https://192.168.1.100:3333/*
-// @grant        none
+// @grant        GM_setValue
+// @grant        GM_getValue
 // ==/UserScript==
 
 (function() {
@@ -78,7 +79,7 @@
     const prefex=(function (){
         const arr=window.location.href.split("/");
         return arr[arr.length-1];
-    })();
+    })()
 
     function getItem(str){
         str = prefex+str;
@@ -102,4 +103,17 @@
 
         return {getSavedData,saveData};
     }
+
+    console.log(getProtectedValue("test"));
+
+    function getProtectedValue(name){
+        name = name; // optionally set prefix
+        let value = GM_getValue(name);
+        if(value===undefined||value===null){
+            value = prompt("enter "+name+" value");
+            GM_setValue(name, value);
+        }
+        return apikey;
+    }
+
 })();
