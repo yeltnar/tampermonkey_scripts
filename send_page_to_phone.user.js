@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         send page to phone
 // @namespace    http://tampermonkey.net/
-// @version      0.2.4
+// @version      0.2.5
 // @description  send page to phone
 // @author       You
 // @match        http://*/*
@@ -15,12 +15,17 @@ let last_key="";
 
 (()=>{
     'use strict';
+  
+    console.log("send page to phone added")
+  
     window.addEventListener("keyup",keyAction);
     console.log("added send to join key listener");
     function keyAction(e){
         last_key += e.key;
         if( /jjjjj/.test(last_key) ){
-            sendThisPageToPhone()
+            sendThisPageToPhone();
+        }else if( e.key==="j" && e.altKey === true ){
+            sendThisPageToPhone();
         }
     }
 
