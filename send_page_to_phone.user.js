@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         send page to phone
 // @namespace    http://tampermonkey.net/
-// @version      0.2.6
+// @version      0.2.7
 // @description  send page to phone
 // @author       You
 // @match        http://*/*
@@ -60,6 +60,10 @@ let last_key="";
 })();
 
 function notifyMe(msg) {
+    
+    showToast(3000);
+    return
+
     // Let's check if the browser supports notifications
     if (!("Notification" in window)) {
         alert("This browser does not support system notifications");
@@ -81,7 +85,6 @@ function notifyMe(msg) {
         });
     }
   
-    showToast(3000)
 
     // Finally, if the user has denied notifications and you
     // want to be respectful there is no need to bother them any more.
