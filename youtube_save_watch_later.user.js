@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://www.youtube.com/watch
 // @grant       none
-// @version     0.1.1
+// @version     0.1.2
 // @author      -
 // @run-at      document-idle
 // @description 3/23/2020, 3:18:31 PM
@@ -11,15 +11,20 @@
 // ==/UserScript==
 
 ;(async ()=>{
+  console.log("adding youtube_save_watch_later");
   
   const save_watch_later = getQValue("save_watch_later");
   const youtube_save_watch_later = getQValue("youtube_save_watch_later");
-  
-  await timeoutPromise(2000);
 
-  if( save_watch_later!=="true" || youtube_save_watch_later==="true" ){
+  console.log({save_watch_later,youtube_save_watch_later});
+  
+  if( save_watch_later!=="true" && youtube_save_watch_later!=="true" ){
       return;
   }
+  
+  console.log("starting youtube_save_watch_later");
+  
+  await timeoutPromise(2000);
 
   const watch_later_button = document.querySelector("ytd-button-renderer.ytd-menu-renderer:nth-child(4) > a:nth-child(1) > yt-icon-button:nth-child(1) > button:nth-child(1)");
   watch_later_button.click();
