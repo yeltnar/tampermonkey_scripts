@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         send page to phone
 // @namespace    http://tampermonkey.net/
-// @version      0.2.7
+// @version      0.2.8
 // @description  send page to phone
 // @author       You
 // @match        http://*/*
@@ -25,6 +25,8 @@ let last_key="";
         if( /jjjjj/.test(last_key) ){
             sendThisPageToPhone();
         }else if( e.key==="j" && e.altKey === true ){
+            sendThisPageToPhone();
+        }else if( e.code==="KeyJ" && e.altKey === true ){
             sendThisPageToPhone();
         }
     }
