@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         send page to phone
 // @namespace    http://tampermonkey.net/
-// @version      0.2.9
+// @version      0.2.10
 // @description  send page to phone
 // @author       You
 // @match        http://*/*
@@ -22,9 +22,7 @@ let last_key="";
     console.log("added send to join key listener");
     function keyAction(e){
         last_key += e.key;
-        if( /jjjjj/.test(last_key) ){
-            sendThisPageToPhone();
-        }else if( e.key==="j" && e.altKey === true ){
+        if( e.key==="j" && e.altKey === true ){
             sendThisPageToPhone();
         }else if( e.code==="KeyJ" && e.altKey === true ){
             sendThisPageToPhone();
@@ -219,3 +217,4 @@ function replaceQValue(q_term="q", replace_value=""){
 
     return new_url;
 }
+
