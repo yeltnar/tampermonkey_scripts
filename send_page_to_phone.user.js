@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         send page to phone
 // @namespace    http://tampermonkey.net/
-// @version      0.2.8
+// @version      0.2.9
 // @description  send page to phone
 // @author       You
 // @match        http://*/*
@@ -33,6 +33,7 @@ let last_key="";
 
     function sendThisPageToPhone(){
         let url = window.location.href;
+        url = fixForYoutube(url);
         url = encodeURIComponent(url);
         sendToPhone(url);
 
@@ -127,4 +128,94 @@ function showToast(time){
 	setTimeout(()=>{
 		document.querySelector("body").removeChild(load);
 	},time);
+}
+
+function fixForYoutube(url){
+  
+  if( /youtube\.com\/watch\?/.test(url) ){
+    document.querySelector("video").pause();
+    const cur_video_time = parseInt(document.querySelector("video").getCurrentTime());
+    to_return = replaceQValue("t", cur_video_time+"s");
+  }else{
+    to_return = url;
+  }
+  
+  return to_return;
+  
+}
+
+function getQValue(q_term="q"){
+
+    let search = window.location.search;
+
+    search = search.split("?")[1];
+
+    let search_arr = search.split("&");
+
+    let q = search_arr.reduce((acc, cur)=>{
+
+        if( acc!==undefined ){
+            return acc;
+        }
+
+        const tmp = cur.split("=");
+        cur = {
+            key:tmp[0],
+            value:tmp[1]
+        }
+
+        if(cur.key === q_term){
+            acc = cur.value
+        }
+        return acc;
+    }, undefined);
+
+    return q;
+}
+
+function replaceQValue(q_term="q", replace_value=""){
+  
+    let search = window.location.search;
+
+    const top_search_arr = search.split("?");
+  
+    console.log({top_search_arr})
+  
+    let url_start = top_search_arr[0];
+    let search_result = top_search_arr[1];
+
+    let search_arr = search_result.split("&");
+
+    let query_obj = search_arr.map((cur,i,arr)=>{
+
+        const tmp = cur.split("=");
+        const to_return = {
+            key:tmp[0],
+            value:tmp[1]
+        }
+        return to_return
+      
+    }, undefined);
+  
+    console.log({query_obj});
+
+    const new_search = query_obj.reduce((acc,cur,i,arr)=>{
+
+        let {key,value} = cur;
+      
+        if(key===q_term){
+           value = replace_value;
+        }
+
+        const last_char = i+1 === arr.length ? "" : "&";
+
+        return acc+`${key}=${value}${last_char}`;
+
+
+    },"?");
+  
+    const new_url = window.location.href.split(window.location.search)[0] + new_search;
+    console.log({new_url});
+
+    return new_url;
 }
