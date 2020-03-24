@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://www.youtube.com/watch
 // @grant       none
-// @version     0.1.0
+// @version     0.1.1
 // @author      -
 // @run-at      document-idle
 // @description 3/23/2020, 3:18:31 PM
@@ -13,10 +13,11 @@
 ;(async ()=>{
   
   const save_watch_later = getQValue("save_watch_later");
+  const youtube_save_watch_later = getQValue("youtube_save_watch_later");
   
   await timeoutPromise(2000);
 
-  if( save_watch_later!=="true" ){
+  if( save_watch_later!=="true" || youtube_save_watch_later==="true" ){
       return;
   }
 
