@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         send page to phone
 // @namespace    http://tampermonkey.net/
-// @version      0.2.10
+// @version      0.2.11
 // @description  send page to phone
 // @author       You
 // @match        http://*/*
@@ -130,7 +130,7 @@ function showToast(time){
 
 function fixForYoutube(url){
   
-  if( /youtube\.com\/watch\?/.test(url) ){
+  if( /youtube\.com\/watch/.test(url) ){
     document.querySelector("video").pause();
     const cur_video_time = parseInt(document.querySelector("video").getCurrentTime());
     to_return = replaceQValue("t", cur_video_time+"s");
@@ -184,30 +184,33 @@ function replaceQValue(q_term="q", replace_value=""){
 
     let search_arr = search_result.split("&");
 
-    let query_obj = search_arr.map((cur,i,arr)=>{
+    let query_obj = search_arr.reduce((acc,cur,i,arr)=>{
 
         const tmp = cur.split("=");
-        const to_return = {
-            key:tmp[0],
-            value:tmp[1]
-        }
-        return to_return
+        // const to_return = {
+        //     key:tmp[0],
+        //     value:tmp[1]
+        // }
+        acc[tmp[0]] = tmp[1];
+        return acc
       
-    }, undefined);
+    }, {});
+  
+    query_obj[q_term] = replace_value;
   
     console.log({query_obj});
+  
+    query_obj[q_term] = replace_value;
 
-    const new_search = query_obj.reduce((acc,cur,i,arr)=>{
+    const new_search = Object.keys(query_obj).reduce((acc,cur,i,arr)=>{
 
-        let {key,value} = cur;
-      
-        if(key===q_term){
-           value = replace_value;
-        }
+        // let {key,value} = cur;
+        const key = cur;
+        const value = query_obj[key];
 
-        const last_char = i+1 === arr.length ? "" : "&";
+        const ending_char = i+1 === arr.length ? "" : "&";
 
-        return acc+`${key}=${value}${last_char}`;
+        return acc+`${key}=${value}${ending_char}`;
 
 
     },"?");
