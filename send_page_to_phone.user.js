@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         send page to phone
 // @namespace    http://tampermonkey.net/
-// @version      0.2.11
+// @version      0.2.12
 // @description  send page to phone
 // @author       You
 // @match        http://*/*
@@ -92,6 +92,9 @@ function notifyMe(msg) {
 }
 
 function showToast(time){
+  
+  time = 1000 * 60
+  
 	const load = document.createElement("div");
 	load.setAttribute("findme", "drew");
 	load.style.position="absolute";
@@ -107,7 +110,7 @@ function showToast(time){
   const load_bar = document.createElement("div");
   load_bar.style.width = "100%";
   load_bar.style.backgroundColor="green";
-  load_bar.style.position="relitive";
+  load_bar.style.position="fixed";
   load_bar.style.left="0px";
   load_bar.style.top="0px";
   
@@ -117,7 +120,7 @@ function showToast(time){
   load_bar.style.fontSize="2rem";
   
 
-    load.appendChild(load_bar);
+  load.appendChild(load_bar);
 
 	document.querySelector("body").appendChild(load);
 
