@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         send page to phone
 // @namespace    http://tampermonkey.net/
-// @version      0.2.12
+// @version      0.2.13
 // @description  send page to phone
 // @author       You
 // @match        http://*/*
@@ -92,8 +92,6 @@ function notifyMe(msg) {
 }
 
 function showToast(time){
-  
-  time = 1000 * 60
   
 	const load = document.createElement("div");
 	load.setAttribute("findme", "drew");
