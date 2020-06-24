@@ -3,15 +3,16 @@
 // @namespace   Violentmonkey Scripts
 // @match       *://*.na.collabserv.com/*
 // @grant       none
-// @version     0.1
-// @author      -
+// @version     0.2
+// @author      yeltnar
+// @run-at document-idle
 // @description 6/24/2020, 9:53:19 AM
 // 
 // @grant GM.xmlHttpRequest
 // ==/UserScript==
 
 
-async function alwaysRun(){
+async function alwaysRun(report_element){
   
   const details = {
     url:"https://apps.na.collabserv.com/profiles/photo.do"
@@ -20,20 +21,36 @@ async function alwaysRun(){
   console.log(`about to do request for login check`);
   
   const resp_status_code = await networkPromise(details).then(resp=>resp.status);
+  
+  const ping_date_str = formatDate(new Date());
 
-  console.log(`resp_status_code is ${resp_status_code} ${new Date().toString()}`);
+  console.log(`resp_status_code is ${resp_status_code} ${ping_date_str}`);
   
   if( resp_status_code===401 ){
+      report_element.innerText = `Login ❌ ${ping_date_str}`;
     alert("need to refresh verse");
+  }else{
+    try{
+      report_element.innerText = `Login ✅ ${ping_date_str}`;
+    }catch(e){}
   }
   
 }
 
 (()=>{
   
-  alwaysRun();
+  // setTimeout();
+  let ping_time_ele;
+  try{
+    ping_time_ele = document.createElement("div")
+    ping_time_ele.style.order = 97001;
+    ping_time_ele.id = "ibm_login_check_report";
+    document.querySelector("[role=menubar]").appendChild(ping_time_ele)
+  }catch(e){}
+    
+  alwaysRun(ping_time_ele);
   
-  setInterval(alwaysRun, 60*1000);
+  setInterval(()=>{alwaysRun(ping_time_ele)}, 60*1000);
   
 })();
 
@@ -49,4 +66,15 @@ function networkPromise(details){
       }
     });
   });
+}
+
+function formatDate(date){
+  
+  const dateTimeFormat = new Intl.DateTimeFormat('en', { month: 'short', day: '2-digit', hour: "2-digit", minute:"2-digit", second:"2-digit" });
+  const date_format_obj = dateTimeFormat .formatToParts(date);
+  const [{ value: month },,{ value: day },,{ value: hour },,{ value: minute },,{ value: second },,{value: dayPeriod}] = date_format_obj;
+
+  const str = `${month} ${day} ${hour}:${minute}:${second} ${dayPeriod}`;
+  
+  return str;
 }
