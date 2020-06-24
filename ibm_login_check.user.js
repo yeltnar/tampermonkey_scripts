@@ -33,7 +33,7 @@ async function alwaysRun(){
   
   alwaysRun();
   
-  setTimeout(alwaysRun, 60*1000);
+  setInterval(alwaysRun, 60*1000);
   
 })();
 
