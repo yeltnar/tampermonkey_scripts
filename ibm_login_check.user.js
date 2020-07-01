@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       *://*.na.collabserv.com/*
 // @grant       none
-// @version     0.4
+// @version     0.5
 // @author      yeltnar
 // @run-at document-idle
 // @description 6/24/2020, 9:53:19 AM
@@ -30,11 +30,12 @@ async function alwaysRun(report_element){
   console.log(`GM.getValue("logged_in") is ${await GM.getValue("logged_in")}`)
   
   if( await GM.getValue("logged_in")===false ){
-    console.log("not logged in and not alerting");
+      report_element.innerText = `Login ❌ ${ping_date_str}`;
+      console.log("not logged in and not alerting");
   }else if( resp_status_code===401 ){
       report_element.innerText = `Login ❌ ${ping_date_str}`;
       await GM.setValue("logged_in",false);
-    alert("need to refresh verse");
+      alert("need to refresh verse");
   }else{
     try{
       report_element.innerText = `Login ✅ ${ping_date_str}`;
