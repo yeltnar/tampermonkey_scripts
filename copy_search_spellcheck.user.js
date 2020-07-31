@@ -25,6 +25,8 @@ function keyAction(e){
   
     if( match ){
         copySuggestion();
+    }else if( e.code==="KeyS" && e.altKey === true ){
+        copySuggestion();
     }
   
     console.log("key pressed after if/else");
