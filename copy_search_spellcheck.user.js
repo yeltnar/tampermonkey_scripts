@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         search engine spell checker
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  copy search engine text recommendation
 // @author       You
 // @match        https://www.google.com/search*
-// @match        https://www.startpage.com/sp/search*
+// @match        https://www.startpage.com/*search*
 // @grant        GM_setClipboard
 // @grant        window.close
 // ==/UserScript==
