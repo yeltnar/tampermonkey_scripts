@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         search engine spell checker
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @description  copy search engine text recommendation
 // @author       You
 // @match        https://www.google.com/search*
@@ -66,12 +66,12 @@ function matchDesiredKeys( key_event_list ){
 
 function copySuggestion(){
   if( window.location.href.includes('google') ){
-      let txt = recursiveBodyFind("Did you mean:").parentElement.querySelector("i").innerText;
+      let txt = recursiveBodyFind("Did you mean:").parentElement.querySelector("a").innerText;
       GM_setClipboard( txt );
       window.close();
   }
   if( window.location.href.includes('startpage') ){
-      let txt = recursiveBodyFind("Did you mean:").parentElement.querySelector("i").innerText;
+      let txt = recursiveBodyFind("Did you mean:").parentElement.querySelector("button").innerText;
       GM_setClipboard( txt );
       window.close();
   }
