@@ -3,24 +3,48 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://www.youtube.com/watch
 // @grant       none
-// @version     0.1.2
+// @version     0.1.3
 // @author      -
 // @run-at      document-idle
 // @description 3/23/2020, 3:18:31 PM
+// @require https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/q_term.notauser.js
+// @require https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/toast.notauser.js
 // 
 // ==/UserScript==
+
+
 
 ;(async ()=>{
   console.log("adding youtube_save_watch_later");
   
   const save_watch_later = getQValue("save_watch_later");
   const youtube_save_watch_later = getQValue("youtube_save_watch_later");
+  
+  addKeyEvent(["KeyW"]);
 
   console.log({save_watch_later,youtube_save_watch_later});
   
   if( save_watch_later!=="true" && youtube_save_watch_later!=="true" ){
       return;
-  }
+  }else{
+    await saveWatchLater();
+  }    
+})();
+
+function addKeyEvent(key_arr){
+  key_arr.forEach((cur)=>{
+    console.log(`add keybind for save watchlater ${cur}`)
+    window.addEventListener("keydown", async(e)=>{
+      if( cur===e.code && e.altKey  ){
+        await saveWatchLater();
+      }
+    });  
+  });
+}
+
+async function saveWatchLater(){
+  
+  toast("Saving to Watchlater", 5000);
   
   console.log("starting youtube_save_watch_later");
   
@@ -39,36 +63,6 @@
   await timeoutPromise(1000);
 
   document.querySelector("yt-icon.ytd-add-to-playlist-renderer").click()
-    
-})();
-
-function getQValue(q_term="q"){
-
-    let search = window.location.search;
-
-    search = search.split("?")[1];
-
-    let search_arr = search.split("&");
-
-    let q = search_arr.reduce((acc, cur)=>{
-
-        if( acc!==undefined ){
-            return acc;
-        }
-
-        const tmp = cur.split("=");
-        cur = {
-            key:tmp[0],
-            value:tmp[1]
-        }
-
-        if(cur.key === q_term){
-            acc = cur.value
-        }
-        return acc;
-    }, undefined);
-
-    return q;
 }
 
 function timeoutPromise(ms){
