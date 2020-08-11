@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         send page to phone
 // @namespace    http://tampermonkey.net/
-// @version      0.2.14
+// @version      0.2.15
 // @description  send page to phone
 // @author       You
 // @match        http://*/*
@@ -10,50 +10,38 @@
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @require      https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/toast.notauser.js
+// @require      https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/expressFirebase.notauser.js
 // ==/UserScript==
 
 let last_key="";
+const {sendToPhone} = expressFirebase;
 
 (()=>{
     'use strict';
+  
+    window.addEventListener("unload",()=>{sentToPhone(`unloaded ${window.location.href}`)});
   
     console.log("send page to phone added")
   
     window.addEventListener("keyup",keyAction);
     console.log("added send to join key listener");
-    function keyAction(e){
+    async function keyAction(e){
         last_key += e.key;
         if( e.key==="j" && e.altKey === true ){
-            sendThisPageToPhone();
+            await sendThisPageToPhone();
+            last_key="";
         }else if( e.code==="KeyJ" && e.altKey === true ){
-            sendThisPageToPhone();
+            await sendThisPageToPhone();
+            last_key="";
         }
     }
 
-    function sendThisPageToPhone(){
+    async function sendThisPageToPhone(){
         let url = window.location.href;
         url = fixForYoutube(url);
         url = encodeURIComponent(url);
-        sendToPhone(url);
-
-    }
-
-    function sendToPhone(url){
-        let apikey = GM_getValue('join_apikey');
-        if(apikey===undefined||apikey===null){
-            apikey = prompt("enter join api key");
-            GM_setValue('join_apikey', apikey);
-        }
-
-        const deviceId = "group.android";
-        const title = document.title;
-
-        let req_url = `https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush?url=${url}&title=${title}&deviceId=${deviceId}&apikey=${apikey}`;
-        console.log({req_url});
-        fetch(req_url);
-        last_key="";
-        console.log("called send to join");
-        toast("Sent to phone", 3000);
+        await sendToPhone(url)
+        toast("Sent to phone", 3000, { backgroundColor: "pink" });
     }
 
     window.sendToPhone = sendToPhone;
