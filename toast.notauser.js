@@ -1,30 +1,37 @@
-function toast(msg) {
-    
-    showToast(3000);
-    return
+function toast(msg,time,style={color:"white",backgroundColor:"green"}){
+  
+  const load = document.createElement("div");
+  load.setAttribute("findme", "drew");
+  load.style.position="absolute";
+  load.style.left="0px";
+  load.style.top="0px";
+  load.style.width="100%";
+  load.style.zIndex=Number.MAX_SAFE_INTEGER;
+  load.style.height="10px";
 
-    // Let's check if the browser supports notifications
-    if (!("Notification" in window)) {
-        alert("This browser does not support system notifications");
-    }
+  const start = new Date();
 
-    // Let's check whether notification permissions have already been granted
-    else if (Notification.permission === "granted") {
-        // If it's okay let's create a notification
-        var notification = new Notification(msg);
-    }
-
-    // Otherwise, we need to ask the user for permission
-    else if (Notification.permission !== 'denied') {
-        Notification.requestPermission(function (permission) {
-            // If the user accepts, let's create a notification
-            if (permission === "granted") {
-                var notification = new Notification("Hi there!");
-            }
-        });
-    }
+  const load_time = 5*60*1000; // 5 min
+  const load_bar = document.createElement("div");
+  load_bar.style.width = "100%";
+  load_bar.style.backgroundColor=style.backgroundColor;
+  load_bar.style.position="fixed";
+  load_bar.style.left="0px";
+  load_bar.style.top="0px";
+  
+  load_bar.innerHTML = msg;
+  load_bar.style.color = style.color;
+  load_bar.style.textAlign="center";
+  load_bar.style.fontSize="2rem";
   
 
-    // Finally, if the user has denied notifications and you
-    // want to be respectful there is no need to bother them any more.
+  load.appendChild(load_bar);
+
+	document.querySelector("body").appendChild(load);
+
+	console.log(document.querySelector("[findme=drew]"));
+
+	setTimeout(()=>{
+		document.querySelector("body").removeChild(load);
+	},time);
 }
