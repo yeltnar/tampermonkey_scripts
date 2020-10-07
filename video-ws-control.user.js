@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://www.youtube.com/watch*
 // @grant       none
-// @version     0.1
+// @version     0.2
 // @author      -
 // @description 10/7/2020, 11:58:24 AM
 // @run-at      document-end
@@ -24,7 +24,7 @@ const video_element = document.querySelector("video");
     // add event listeners for the video
     video_element.addEventListener("play",()=>{
       console.log('you clicked play');
-      socket.send(JSON.stringify(getPlayAction()));
+      socket.send(JSON.stringify(getPlayAction(video_element)));
     });
     video_element.addEventListener("pause",()=>{
       console.log('you clicked pause');
@@ -86,6 +86,11 @@ function parseAction(action_obj){
       return;
   }
   
+  // update time seperatly 
+  if( action_obj.current_time!==undefined ){
+    video_element.currentTime = action_obj.current_time
+  }
+  
   if( action_obj.action==="pause" ){
     video_element.pause();
     console.log('pausing');
@@ -95,11 +100,18 @@ function parseAction(action_obj){
   }
 }
 
-function getPlayAction(){
+function getPlayAction(video_element){
+  
+  let current_time;
+  if(video_element !== undefined ){
+    current_time = video_element.getCurrentTime();
+  }
+  
   return {
     "videocontrol":true,
     "action":"play",
     url: window.location.href,
+    current_time
   }
 }
 
