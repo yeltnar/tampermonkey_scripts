@@ -2,8 +2,9 @@
 // @name        video ws controll
 // @namespace   Violentmonkey Scripts
 // @match       https://www.youtube.com/watch*
+// @match       https://www.hulu.com/watch*
 // @grant       none
-// @version     0.3
+// @version     0.4
 // @author      -
 // @description 10/7/2020, 11:58:24 AM
 // @run-at      document-end
@@ -12,27 +13,36 @@
 
 (() => {
 
+
     const ACTIONS = {
         play: "play",
     };
 
 
-    const video_element = document.querySelector("video");
+    let video_element;
+  
+    (()=>{
+      setTimeout(()=>{
+        console.log('adding...');
+        video_element = document.querySelector("video");
+        console.log('adding video element events to '+video_element);
+
+        // add event listeners for the video
+        video_element.addEventListener("play", () => {
+            console.log('you clicked play');
+            socket.send(JSON.stringify(getPlayAction(video_element)));
+        });
+        video_element.addEventListener("pause", () => {
+            console.log('you clicked pause');
+            socket.send(JSON.stringify(getPauseAction()));
+        });
+      },30000);
+    })()
 
 
     const url = "wss://Node-WSS.yeltnar.repl.co";
 
     let socket = new WebSocket(url);
-
-    // add event listeners for the video
-    video_element.addEventListener("play", () => {
-        console.log('you clicked play');
-        socket.send(JSON.stringify(getPlayAction(video_element)));
-    });
-    video_element.addEventListener("pause", () => {
-        console.log('you clicked pause');
-        socket.send(JSON.stringify(getPauseAction()));
-    });
 
     socket.onopen = function (e) {
         const obj = {
