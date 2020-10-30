@@ -4,24 +4,27 @@
 // @match       https://www.youtube.com/watch*
 // @match       https://www.hulu.com/watch*
 // @grant       none
-// @version     0.4
+// @version     0.5
 // @author      -
 // @description 10/7/2020, 11:58:24 AM
 // @run-at      document-end
 // ==/UserScript==
 
 
-(() => {
 
+(() => {
+  
+    const current_session_id = new URLSearchParams(window.location.search).get("session_id") || undefined;
+    console.log({current_session_id});
 
     const ACTIONS = {
         play: "play",
     };
 
-
     let video_element;
   
     (()=>{
+      console.log('adding setup timeout...');
       setTimeout(()=>{
         console.log('adding...');
         video_element = document.querySelector("video");
@@ -30,27 +33,26 @@
         // add event listeners for the video
         video_element.addEventListener("play", () => {
             console.log('you clicked play');
-            socket.send(JSON.stringify(getPlayAction(video_element)));
+            socketSend(getPlayAction(video_element));
         });
         video_element.addEventListener("pause", () => {
             console.log('you clicked pause');
-            socket.send(JSON.stringify(getPauseAction()));
+            socketSend(getPauseAction());
         });
-      },30000);
+      },3000);
     })()
 
-
     const url = "wss://Node-WSS.yeltnar.repl.co";
+    // const url = "wss://192.168.1.132:8080";
 
     let socket = new WebSocket(url);
 
     socket.onopen = function (e) {
         const obj = {
             "type": "host",
-            "location": window.location.href,
-            "time": new Date().getTime()
         };
-        socket.send(JSON.stringify(obj));
+        socketSend(obj)
+      
     };
 
     socket.onmessage = function (event) {
@@ -73,44 +75,56 @@
         alert(`[error] ${error.message}`);
     };
 
-    setTimeout(() => {
-        console.log('sending pause')
-        socket.send(JSON.stringify(getPauseAction()));
-        setTimeout(() => {
-            console.log('sending play')
-            socket.send(JSON.stringify(getPlayAction()));
-        }, 5000)
+//     setTimeout(() => {
+//         console.log('sending pause')
+//         socketSend(getPauseAction());
+//         setTimeout(() => {
+//             console.log('sending play')
+//             socketSend(getPlayAction(video_element));
+//         }, 5000)
 
-    }, 5000);
+//     }, 5000);
 
 
-
+    function socketSend(obj){
+      obj.session_id = current_session_id;
+      obj.time = new Date().getTime();
+      obj.url = window.location.href,
+      
+      socket.send(JSON.stringify(obj));
+    }
 
     function parseAction(action_obj) {
-        console.log(`parseAction`)
+        console.log(`parseAction`);
 
         console.log(`parseAction - ${JSON.stringify(action_obj, null, 2)}`);
+      
+        console.log(action_obj)
+        console.log(action_obj.session_id)
+        console.log(current_session_id)
+      
+      if( current_session_id!==undefined && action_obj.session_id===current_session_id ){
+          
+          // update time seperatly 
+          if (action_obj.current_time !== undefined) {
+              video_element.currentTime = action_obj.current_time
+          }
 
-        if (action_obj.url !== window.location.href) {
+          if (action_obj.action === "pause") {
+              video_element.pause();
+              console.log('pausing');
+          } else if (action_obj.action === "play") {
+              video_element.play();
+              console.log('playing')
+          }
+          
+        }else{ // don't parse action 
             console.log(JSON.stringify({
                 action_url: action_obj.url,
                 curent_url: window.location.href
             }, null, 2))
             return;
-        }
-
-        // update time seperatly 
-        if (action_obj.current_time !== undefined) {
-            video_element.currentTime = action_obj.current_time
-        }
-
-        if (action_obj.action === "pause") {
-            video_element.pause();
-            console.log('pausing');
-        } else if (action_obj.action === "play") {
-            video_element.play();
-            console.log('playing')
-        }
+        } 
     }
 
     function getPlayAction(video_element) {
@@ -123,7 +137,6 @@
         return {
             "videocontrol": true,
             "action": "play",
-            url: window.location.href,
             current_time
         }
     }
@@ -132,7 +145,6 @@
         return {
             "videocontrol": true,
             "action": "pause",
-            url: window.location.href,
         }
     }
 
