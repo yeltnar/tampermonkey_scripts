@@ -4,7 +4,7 @@
 // @match       https://www.reddit.com/*
 // @match       https://www.reddit.com*
 // @grant       none
-// @version     1.1
+// @version     1.2
 // @author      Andrew Brantley
 // @run-at      document-start
 // @grant       window.close
@@ -16,7 +16,7 @@
   window.location.href = window.location.href.split("https://www.").join("https://old.");
   setTimeout(()=>{
     window.close();
-  },1000);
+  },3000);
   console.log('after change')
   
 })();
