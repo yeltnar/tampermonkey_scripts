@@ -14,9 +14,9 @@
   
   console.log('before change')
   window.location.href = window.location.href.split("https://www.").join("https://old.");
-  setTimeout(()=>{
-    window.close();
-  },3000);
+  // setTimeout(()=>{
+  //   window.close();
+  // },3000);
   console.log('after change')
   
 })();
