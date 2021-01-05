@@ -2,6 +2,7 @@
 // @name        video ws controll
 // @namespace   Violentmonkey Scripts
 // @match       https://www.youtube.com/watch*
+// @match       https://m.youtube.com/watch*
 // @match       https://www.hulu.com/watch*
 // @grant       none
 // @version     0.6
