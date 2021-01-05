@@ -4,7 +4,7 @@
 // @match       https://www.youtube.com/watch*
 // @match       https://www.hulu.com/watch*
 // @grant       none
-// @version     0.5
+// @version     0.6
 // @author      -
 // @description 10/7/2020, 11:58:24 AM
 // @run-at      document-end
@@ -42,10 +42,15 @@
       },3000);
     })()
 
-    const url = "wss://Node-WSS.yeltnar.repl.co";
+    // const url = "wss://Node-WSS.yeltnar.repl.co";
     // const url = "wss://192.168.1.132:8080";
+    const url = "wss://abra-testing-node-server.herokuapp.com";
 
     let socket = new WebSocket(url);
+  
+    const ping_interval = setInterval(()=>{
+      socketSend(getKeepAliveAction())
+    },30*1000);
 
     socket.onopen = function (e) {
         const obj = {
@@ -58,7 +63,7 @@
     socket.onmessage = function (event) {
         console.log(`onmessage - ${event.data}`);
         parseAction(JSON.parse(event.data));
-        console.log(`onmessage after - ${event.data}`)
+        console.log(`onmessage after - ${event.data} (${new Date().getTime()})`)
     };
 
     socket.onclose = function (event) {
@@ -67,8 +72,10 @@
         } else {
             // e.g. server process killed or network down
             // event.code is usually 1006 in this case
+            console.log(`connection died at ${new Date().getTime()}`);
             alert('[close] Connection died');
         }
+        clearInterval(ping_interval);
     };
 
     socket.onerror = function (error) {
@@ -89,7 +96,7 @@
     function socketSend(obj){
       obj.session_id = current_session_id;
       obj.time = new Date().getTime();
-      obj.url = window.location.href,
+      obj.url = window.location.href;
       
       socket.send(JSON.stringify(obj));
     }
@@ -145,6 +152,13 @@
         return {
             "videocontrol": true,
             "action": "pause",
+        }
+    }
+
+    function getKeepAliveAction() {
+        return {
+            "videocontrol": false,
+            "action": "keep_alive",
         }
     }
 
