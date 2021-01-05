@@ -5,7 +5,7 @@
 // @match       https://m.youtube.com/watch*
 // @match       https://www.hulu.com/watch*
 // @grant       none
-// @version     0.6
+// @version     0.7
 // @author      -
 // @description 10/7/2020, 11:58:24 AM
 // @run-at      document-end
