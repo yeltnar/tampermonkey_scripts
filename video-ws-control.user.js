@@ -5,7 +5,7 @@
 // @match       https://m.youtube.com/watch*
 // @match       https://www.hulu.com/watch*
 // @grant       none
-// @version     0.7
+// @version     0.8
 // @author      -
 // @description 10/7/2020, 11:58:24 AM
 // @run-at      document-end
@@ -45,13 +45,19 @@
 
     // const url = "wss://Node-WSS.yeltnar.repl.co";
     // const url = "wss://192.168.1.132:8080";
-    const url = "wss://abra-testing-node-server.herokuapp.com";
+    const base_url = "abra-testing-node-server.herokuapp.com";
+    const ws_url = `wss://${base_url}`;
+    const http_url = `https://${base_url}`;
 
-    let socket = new WebSocket(url);
+    let socket = new WebSocket(ws_url);
   
-    const ping_interval = setInterval(()=>{
+    const ping_interval_socket = setInterval(()=>{
       socketSend(getKeepAliveAction())
     },30*1000);
+  
+    const ping_interval_http = setInterval(()=>{
+      fetch(http_url).then(()=>{console.log('http ping done')});
+    },60*1000*5);
 
     socket.onopen = function (e) {
         const obj = {
@@ -76,7 +82,8 @@
             console.log(`connection died at ${new Date().getTime()}`);
             alert('[close] Connection died');
         }
-        clearInterval(ping_interval);
+        clearInterval(ping_interval_socket);
+        clearInterval(ping_interval_http);
     };
 
     socket.onerror = function (error) {
