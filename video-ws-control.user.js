@@ -7,7 +7,7 @@
 // @grant       none
 // @grant       GM_setValue
 // @grant       GM_getValue
-// @version     0.8
+// @version     0.9
 // @author      -
 // @description 10/7/2020, 11:58:24 AM
 // @run-at      document-end
