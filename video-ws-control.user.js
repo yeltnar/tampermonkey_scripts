@@ -5,17 +5,18 @@
 // @match       https://m.youtube.com/watch*
 // @match       https://www.hulu.com/watch*
 // @grant       none
+// @grant       GM_setValue
+// @grant       GM_getValue
 // @version     0.8
 // @author      -
 // @description 10/7/2020, 11:58:24 AM
 // @run-at      document-end
 // ==/UserScript==
 
-
-
 (() => {
   
-    const current_session_id = new URLSearchParams(window.location.search).get("session_id") || undefined;
+    const search_params = new URLSearchParams(window.location.search);
+    const current_session_id = search_params.get("session_id") || undefined;
     console.log({current_session_id});
 
     const ACTIONS = {
@@ -41,7 +42,24 @@
             socketSend(getPauseAction());
         });
       },3000);
-    })()
+    })();
+
+    // setTimeout(()=>{
+      if( search_params.get("session_id")===null ){        
+        const session_id = GM_getValue("session_id") || localStorage.getItem("session_id");
+        if( session_id!==null ){
+          console.log(`GM_setValue session_id is ${GM_setValue("session_id")}`);
+          const url=window.location.href+"&session_id="+session_id;
+          console.log("findmedrew "+url)
+          GM_setValue("session_id",session_id);;
+          window.location.href=url
+        }else{
+          console.log('session_id else');
+          console.log(`GM_getValue("session_id") is ${GM_getValue("session_id")}`);
+        }   
+        
+      }   
+    // },3000);
 
     // const url = "wss://Node-WSS.yeltnar.repl.co";
     // const url = "wss://192.168.1.132:8080";
@@ -122,6 +140,7 @@
           
           // update time seperatly 
           if (action_obj.current_time !== undefined) {
+              video_element.pause();
               video_element.currentTime = action_obj.current_time
           }
 
