@@ -2,8 +2,9 @@
 // @name        search redirect
 // @namespace   Violentmonkey Scripts
 // @match       https://www.startpage.com/do/dsearch
+// @match       https://www.google.com/search
 // @grant       window.close
-// @version     0.4
+// @version     0.5
 // @author      -
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
