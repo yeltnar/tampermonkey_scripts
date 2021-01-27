@@ -3,16 +3,15 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://www.startpage.com/do/dsearch
 // @grant       window.close
-// @version     0.3
+// @version     0.4
 // @author      -
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
 // ==/UserScript==
 
-
 (()=>{
   
-  const query = new URLSearchParams(window.location.search).get("query") || undefined;
+  const query = getQuery();
   console.log(`query is ${query}`);
   
   const redirect_list = [
@@ -52,4 +51,17 @@
   }
 
 })();
+
+function getQuery(url=window.location.href){
+  if(/google.com/.test(url)){
+    console.log("on google page");
+    return new URLSearchParams(window.location.search).get("q");
+  }else if(/startpage.com/.test(url)){
+    console.log("on startpage page");
+    return new URLSearchParams(window.location.search).get("query");
+  }else{
+    console.log("unknown page "+url);
+    return "";
+  }
+}
 
