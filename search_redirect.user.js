@@ -4,7 +4,7 @@
 // @match       https://www.startpage.com/do/dsearch
 // @match       https://www.google.com/search
 // @grant       window.close
-// @version     0.5
+// @version     0.6
 // @author      -
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -27,6 +27,14 @@
     {
       regex:/ ?css ?grid(layout)? ?/,
       url:`https://css-tricks.com/snippets/css/complete-guide-grid/`
+    },
+    {
+      regex:/ ?firefox ?store ?/,
+      url:`https://addons.mozilla.org/en-US/firefox/`
+    },
+    {
+      regex:/ ?chrome ?store ?/,
+      url:`https://chrome.google.com/webstore/category/extensions`
     },
   ];
   
