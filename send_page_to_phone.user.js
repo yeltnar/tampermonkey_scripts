@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         send page to phone
 // @namespace    http://tampermonkey.net/
-// @version      0.2.15
+// @version      0.2.16
 // @description  send page to phone
 // @author       You
 // @match        http://*/*
@@ -53,7 +53,7 @@ function fixForYoutube(url){
   
   if( /youtube\.com\/watch/.test(url) ){
     document.querySelector("video").pause();
-    const cur_video_time = parseInt(document.querySelector("video").getCurrentTime());
+    const cur_video_time = parseInt(document.querySelector("video").currentTime);
     to_return = replaceQValue("t", cur_video_time+"s");
   }else{
     to_return = url;
