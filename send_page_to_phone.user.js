@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         send page to phone
 // @namespace    http://tampermonkey.net/
-// @version      0.2.16
+// @version      0.2.17
 // @description  send page to phone
 // @author       You
 // @match        http://*/*
@@ -9,6 +9,7 @@
 // @match        chrome-extension://*/*
 // @grant        GM_setValue
 // @grant        GM_getValue
+// @grant        GM_registerMenuCommand
 // @require      https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/toast.notauser.js
 // @require      https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/expressFirebase.notauser.js
 // ==/UserScript==
@@ -43,9 +44,12 @@ const {sendToPhone} = expressFirebase;
         await sendToPhone(url)
         toast("Sent to phone", 3000, { backgroundColor: "pink" });
     }
+  
+    GM_registerMenuCommand("Send to Phone", sendThisPageToPhone);
 
     window.sendToPhone = sendToPhone;
     window.sendThisPageToPhone = sendThisPageToPhone;
+  
 
 })();
 
