@@ -4,7 +4,7 @@
 // @match       https://www.startpage.com/do/dsearch
 // @match       https://www.google.com/search
 // @grant       window.close
-// @version     0.7
+// @version     0.8
 // @author      -
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -39,6 +39,10 @@
     {
       regex:/^(wolfram ?alpha|wa)(.*)/,
       funct:wolframAlpha
+    },
+    {
+      regex:/^(google|gg)(.*)/,
+      funct:googleRedirect
     }
   ];
   
@@ -56,17 +60,6 @@
     return regex.test(query);
   }
 
-  function movePage(new_url){
-    window.location.href = new_url;
-
-    const interval = setInterval(()=>{
-      if(new_url!==window.location.href){
-        clearInterval(interval);
-        window.close();
-      }
-    },100); 
-  }
-
 })();
 
 function getQuery(url=window.location.href){
@@ -82,10 +75,28 @@ function getQuery(url=window.location.href){
   }
 }
 
+function movePage(new_url){
+  window.location.href = new_url;
+  closeOldUrl(new_url);
+}
+
+function closeOldUrl(new_url){
+  const interval = setInterval(()=>{
+      if(new_url!==window.location.href){
+        clearInterval(interval);
+        window.close();
+      }
+    },100); 
+}
+
+function googleRedirect(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[2];
+  movePage(`https://www.google.com/search?q=${s}`)
+}
+
 function wolframAlpha(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
-  console.log('wolfram alpha found q='+q);
-  console.log('wolfram alpha found q='+q+" -"+regex.exec(s));
-  window.location.href=`https://www.wolframalpha.com/input/?i=${s}`
+  movePage(`https://www.wolframalpha.com/input/?i=${s}`)
 }
