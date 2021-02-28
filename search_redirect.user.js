@@ -4,7 +4,7 @@
 // @match       https://www.startpage.com/do/dsearch
 // @match       https://www.google.com/search
 // @grant       window.close
-// @version     0.6
+// @version     0.7
 // @author      -
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -36,11 +36,19 @@
       regex:/ ?chrome ?store ?/,
       url:`https://chrome.google.com/webstore/category/extensions`
     },
+    {
+      regex:/^(wolfram ?alpha|wa)(.*)/,
+      funct:wolframAlpha
+    }
   ];
   
   redirect_list.forEach((cur)=>{
     if(checkAction(cur.regex)){
-      movePage(cur.url)
+      if(cur.funct!==undefined){
+        cur.funct(cur.regex);
+      }else{
+        movePage(cur.url)
+      }
     }
   });
 
@@ -74,3 +82,10 @@ function getQuery(url=window.location.href){
   }
 }
 
+function wolframAlpha(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[2];
+  console.log('wolfram alpha found q='+q);
+  console.log('wolfram alpha found q='+q+" -"+regex.exec(s));
+  window.location.href=`https://www.wolframalpha.com/input/?i=${s}`
+}
