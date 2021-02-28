@@ -37,11 +37,11 @@
       url:`https://chrome.google.com/webstore/category/extensions`
     },
     {
-      regex:/^(wolfram ?alpha|wa)(.*)/,
+      regex:/^(wolfram ?alpha|wa)\W?(.*)/,
       funct:wolframAlpha
     },
     {
-      regex:/^(google|gg)(.*)/,
+      regex:/^(google|gg)\W?(.*)/,
       funct:googleRedirect
     }
   ];
