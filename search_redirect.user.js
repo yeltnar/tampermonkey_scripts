@@ -4,7 +4,8 @@
 // @match       https://www.startpage.com/do/dsearch
 // @match       https://www.google.com/search
 // @grant       window.close
-// @version     0.8
+// @grant       GM_openInTab
+// @version     0.9
 // @author      -
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -76,7 +77,8 @@ function getQuery(url=window.location.href){
 }
 
 function movePage(new_url){
-  window.location.href = new_url;
+  // window.location.href = new_url;
+  GM_openInTab(new_url,{insert:true});
   closeOldUrl(new_url);
 }
 
