@@ -5,7 +5,7 @@
 // @match       https://www.google.com/search
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.9
+// @version     0.10
 // @author      -
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -44,7 +44,11 @@
     {
       regex:/^(google|gg)\W?(.*)/,
       funct:googleRedirect
-    }
+    },
+    {
+      regex:/ ?giphy ?/,
+      url:`https://giphy.com/`
+    },
   ];
   
   redirect_list.forEach((cur)=>{
