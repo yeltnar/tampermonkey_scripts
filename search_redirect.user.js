@@ -5,7 +5,7 @@
 // @match       https://www.google.com/search
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.10
+// @version     0.11
 // @author      -
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -49,6 +49,12 @@
       regex:/ ?giphy ?/,
       url:`https://giphy.com/`
     },
+    {
+      regex:/^(emoji)\W?(.*)/,
+      funct:emojipediaRedirect
+    },
+    
+    
   ];
   
   redirect_list.forEach((cur)=>{
@@ -105,4 +111,10 @@ function wolframAlpha(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
   movePage(`https://www.wolframalpha.com/input/?i=${s}`)
+}
+
+function emojipediaRedirect(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[2];
+  movePage(`https://emojipedia.org/search/?q=${s}`)
 }
