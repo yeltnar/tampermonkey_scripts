@@ -5,7 +5,7 @@
 // @match       https://www.google.com/search
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.11
+// @version     0.12
 // @author      -
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -52,6 +52,10 @@
     {
       regex:/^(emoji)\W?(.*)/,
       funct:emojipediaRedirect
+    },
+    {
+      regex:/^(maps)\W?(.*)/,
+      funct:mapsRedirect
     },
     
     
@@ -117,4 +121,10 @@ function emojipediaRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
   movePage(`https://emojipedia.org/search/?q=${s}`)
+}
+
+function mapsRedirect(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[2];
+  movePage(`https://www.google.com/maps/search/${s}`)
 }
