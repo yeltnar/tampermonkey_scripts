@@ -5,7 +5,7 @@
 // @match       https://www.google.com/search
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.12
+// @version     0.13
 // @author      -
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -46,8 +46,8 @@
       funct:googleRedirect
     },
     {
-      regex:/ ?giphy ?/,
-      url:`https://giphy.com/`
+      regex:/^(giphy)\W?(.*)/,
+      funct:giphyRedirect
     },
     {
       regex:/^(emoji)\W?(.*)/,
@@ -56,6 +56,14 @@
     {
       regex:/^(maps)\W?(.*)/,
       funct:mapsRedirect
+    },
+    {
+      regex:/^(amazon|az)\W?(.*)/,
+      funct:amazonRedirect
+    },
+    {
+      regex:/ ?gh ?/,
+      url:`https://github.com/`
     },
     
     
@@ -127,4 +135,16 @@ function mapsRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
   movePage(`https://www.google.com/maps/search/${s}`)
+}
+
+function amazonRedirect(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[2];
+  movePage(`https://www.amazon.com/s?k=${s}`)
+}
+
+function giphyRedirect(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[2];
+  movePage(`https://giphy.com/search/${s}`)
 }
