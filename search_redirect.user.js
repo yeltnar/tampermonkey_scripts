@@ -2,11 +2,12 @@
 // @name        search redirect
 // @namespace   Violentmonkey Scripts
 // @match       https://www.startpage.com/do/dsearch
+// @match       https://www.startpage.com/do/search
 // @match       https://www.google.com/search
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.13
-// @author      -
+// @version     0.14
+// @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
 // ==/UserScript==
