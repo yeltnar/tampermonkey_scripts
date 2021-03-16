@@ -1,15 +1,3 @@
-// ==UserScript==
-// @name        calendar popup
-// @namespace   Violentmonkey Scripts
-// @match       https://mail.notes.na.collabserv.com/livemail/($Calendar)/*
-// @match       http://localhost:5000/
-// @grant       none
-// @version     1.0
-// @author      -
-// @run-at      document-idle
-// @description 3/15/2021, 9:55:34 AM
-// ==/UserScript==
-
 const textEleSearch = (()=>{
   
   function shouldCheckChildren( text, ele ){
