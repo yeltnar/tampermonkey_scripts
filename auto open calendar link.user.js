@@ -2,16 +2,13 @@
 // @name        auto open calendar link
 // @namespace   Violentmonkey Scripts
 // @match       https://mail.notes.na.collabserv.com/livemail/($Calendar)/*
-// @match       http://localhost:5000/
 // @grant       none
 // @version     0.1
 // @author      -
 // @run-at      document-idle
 // @description 3/15/2021, 9:55:34 AM
-// @dont require     https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/textEleSearch.notauser.js
-// @dont require     https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/getCousinEle.notauser.js
-// @require     http://localhost:5000/textEleSearch.notauser.js
-// @require     http://localhost:5000/getCousinEle.notauser.js
+// @require     https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/textEleSearch.notauser.js
+// @ require     https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/getCousinEle.notauser.js
 // ==/UserScript==
 
 
