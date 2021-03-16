@@ -1,11 +1,17 @@
 const textEleSearch = (()=>{
   
-  function shouldCheckChildren( text, ele ){
+  function shouldCheckChildren( tester, ele ){
     // console.log(ele.nodeName);
-    return ele.innerText.includes(text);
+    if(tester instanceof RegExp){
+        return tester.test(ele.innerText);
+    }else if(typeof tester === 'string'){
+        return ele.innerText.includes(tester);
+    }else{
+      throw new Error('unknown tester');
+    }
   }
 
-  return function textEleSearch(text, top_element){
+  return function textEleSearch(tester, top_element){
   
     //console.log({logid:"textEleSearch",top_element});
 
@@ -19,7 +25,7 @@ const textEleSearch = (()=>{
       // frameset -> go deeper on all children
       const child_arr = [...top_element.children];
       filtered_descendants = child_arr.reduce((acc, cur,i,arr)=>{
-        const deep_children_check_result = textEleSearch(text, cur);
+        const deep_children_check_result = textEleSearch(tester, cur);
         if(deep_children_check_result !== undefined){
           acc.push(deep_children_check_result);
         }
@@ -34,10 +40,10 @@ const textEleSearch = (()=>{
 
       // frame -> check special body
       const ele = top_element.contentDocument.querySelector('body');
-      if( shouldCheckChildren(text,ele) ){
+      if( shouldCheckChildren(tester,ele) ){
           const child_arr = [...ele.children];
           filtered_descendants = child_arr.reduce((acc,cur,i,arr)=>{
-            const deep_children_check_result = textEleSearch(text, cur);
+            const deep_children_check_result = textEleSearch(tester, cur);
             if(deep_children_check_result !== undefined){
               acc.push(deep_children_check_result);
             }
@@ -50,7 +56,7 @@ const textEleSearch = (()=>{
     else if( top_element.childElementCount<1 ){
 
       // no children, check if pass and return element if it does 
-      if( shouldCheckChildren(text,top_element) ){
+      if( shouldCheckChildren(tester,top_element) ){
         filtered_descendants = top_element;
       }
 
@@ -58,10 +64,10 @@ const textEleSearch = (()=>{
     else{
 
       // neither -> check normal body
-      if( shouldCheckChildren(text,top_element) ){
+      if( shouldCheckChildren(tester,top_element) ){
           const child_arr = [...top_element.children];
           filtered_descendants = child_arr.reduce((acc,cur,i,arr)=>{
-            const deep_children_check_result = textEleSearch(text, cur);
+            const deep_children_check_result = textEleSearch(tester, cur);
             const is_defined = deep_children_check_result !== undefined;
             if(is_defined){
               acc.push(deep_children_check_result);
