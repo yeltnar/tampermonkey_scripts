@@ -27,6 +27,7 @@ const textEleSearch = (()=>{
       },[]);
       filtered_descendants = filtered_descendants.length===0 ? undefined : filtered_descendants;
       filtered_descendants = filtered_descendants?.length===1 ? filtered_descendants[0] : filtered_descendants;
+      
 
     }
     else if(top_element.tagName==="FRAME" && top_element.contentDocument ){
@@ -43,6 +44,7 @@ const textEleSearch = (()=>{
             return acc;
           },[]);
           filtered_descendants = filtered_descendants.length===0 ? undefined : filtered_descendants;
+          filtered_descendants = filtered_descendants?.length===1 ? filtered_descendants[0] : filtered_descendants;
       }
     }
     else if( top_element.childElementCount<1 ){
