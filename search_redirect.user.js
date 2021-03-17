@@ -6,7 +6,7 @@
 // @match       https://www.google.com/search
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.14
+// @version     0.15
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -99,10 +99,14 @@ function getQuery(url=window.location.href){
   }
 }
 
-function movePage(new_url){
+async function movePage(new_url){
   // window.location.href = new_url;
-  GM_openInTab(new_url,{insert:true});
-  closeOldUrl(new_url);
+  if(GM_info.platform.os==="android"){ // don't have containers or auto open in new containers on mobile 
+    window.location.href=new_url;
+  }else{
+    GM_openInTab(new_url,{insert:true});
+    closeOldUrl(new_url);
+  }
 }
 
 function closeOldUrl(new_url){
