@@ -12,8 +12,6 @@ const textEleSearch = (()=>{
   }
 
   return function textEleSearch(tester, top_element){
-  
-    //console.log({logid:"textEleSearch",top_element});
 
     if(top_element===undefined){top_element=document.body;} // if no top element, set to this page's body 
 
@@ -74,6 +72,9 @@ const textEleSearch = (()=>{
             }
             return acc;
           },[]);
+          if( filtered_descendants.length===0 ){
+              filtered_descendants = [top_element] // if children don't match, set to self // make an array so the next line couple of lines work out
+          }
           filtered_descendants = filtered_descendants.length===0 ? undefined : filtered_descendants;
           filtered_descendants = filtered_descendants?.length===1 ? filtered_descendants[0] : filtered_descendants;
       }
@@ -84,5 +85,4 @@ const textEleSearch = (()=>{
   }
 
   
-})()
-
+})();
