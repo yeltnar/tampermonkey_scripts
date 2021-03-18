@@ -1,11 +1,14 @@
 const textEleSearch = (()=>{
   
-  function shouldCheckChildren( tester, ele ){
+  function shouldCheckChildren( tester, ele, options={} ){
     // console.log(ele.nodeName);
+    const {key}={key:"innerText",...options}; 
+    
     if(tester instanceof RegExp){
-        return tester.test(ele.innerText);
+        return tester.test(ele[key]);
     }else if(typeof tester === 'string'){
-        return ele.innerText.includes(tester);
+        if(ele[key]===undefined||ele[key]===null){return false;}
+        return ele[key].includes(tester);
     }else{
       throw new Error('unknown tester');
     }
