@@ -26,12 +26,11 @@ function toast(msg,time,style={color:"white",backgroundColor:"green"}){
   
 
   load.appendChild(load_bar);
-
-	document.querySelector("body").appendChild(load);
+  document.documentElement.appendChild(load);
 
 	console.log(document.querySelector("[findme=drew]"));
 
 	setTimeout(()=>{
-		document.querySelector("body").removeChild(load);
+		document.documentElement.removeChild(load);
 	},time);
 }
