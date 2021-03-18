@@ -3,14 +3,14 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://mail.notes.na.collabserv.com/livemail/($Calendar)/*
 // @grant       none
-// @version     0.4
+// @version     0.5
 // @author      -
 // @run-at      document-idle
 // @description 3/15/2021, 9:55:34 AM
 // @require     https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/textEleSearch.notauser.js
 // @require     https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/getCousinEle.notauser.js
+// @require     https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/toast.notauser.js
 // ==/UserScript==
-
 
 (()=>{
 
@@ -49,11 +49,15 @@
       time_str
     });
     
-    const open_in = new Date(time_str).getTime()-new Date().getTime() -45*1000 ; // some buffer before meeting actually starts 
+    const open_date_ms = new Date(time_str).getTime()-45*1000; // some buffer before meeting actually starts 
+    const open_date = new Date(open_date_ms);
+    const open_in = open_date_ms-new Date().getTime();
     
     console.log({open_in,link});
     
     if( open_in > -1*1000*60*10 ){ // if too far in the past, don't open
+      const date_str = new Intl.DateTimeFormat('en-US',{dateStyle:"medium",timeStyle:"medium"}).format(open_date);
+      toast(`Opening '${link}' ${date_str}`, 10000, { backgroundColor: "#cccccc", color:"rgb(0, 133, 113)" });
       setTimeout(()=>{
         open(link);  
       },open_in);
