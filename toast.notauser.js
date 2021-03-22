@@ -1,4 +1,4 @@
-function toast(msg,time,style={color:"white",backgroundColor:"green"}){
+function toast(msg,time=5000,style={color:"white",backgroundColor:"green"}){
   
   const load = document.createElement("div");
   load.setAttribute("findme", "drew");
