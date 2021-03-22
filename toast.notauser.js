@@ -10,27 +10,36 @@ function toast(msg,time,style={color:"white",backgroundColor:"green"}){
   load.style.height="10px";
 
   const start = new Date();
+  
+  let load_bar;
+  
+  if( msg instanceof HTMLElement ){
+    load_bar = msg;
+  }
+  else{
+    load_bar = document.createElement("div");
+    load_bar.style.width = "100%";
+    load_bar.style.backgroundColor=style.backgroundColor;
+    load_bar.style.position="fixed";
+    load_bar.style.left="0px";
+    load_bar.style.top="0px";
 
-  const load_time = 5*60*1000; // 5 min
-  const load_bar = document.createElement("div");
-  load_bar.style.width = "100%";
-  load_bar.style.backgroundColor=style.backgroundColor;
-  load_bar.style.position="fixed";
-  load_bar.style.left="0px";
-  load_bar.style.top="0px";
-  
-  load_bar.innerHTML = msg;
-  load_bar.style.color = style.color;
-  load_bar.style.textAlign="center";
-  load_bar.style.fontSize="2rem";
-  
+    load_bar.innerHTML = msg;
+    load_bar.style.color = style.color;
+    load_bar.style.textAlign="center";
+    load_bar.style.fontSize="2rem";
+  }
 
   load.appendChild(load_bar);
   document.documentElement.appendChild(load);
 
 	console.log(document.querySelector("[findme=drew]"));
+  
+  // remove after time lapsed, if greater than 0
+  if(time>0){
+    setTimeout(()=>{
+      document.documentElement.removeChild(load);
+    },time);
+  }
 
-	setTimeout(()=>{
-		document.documentElement.removeChild(load);
-	},time);
 }
