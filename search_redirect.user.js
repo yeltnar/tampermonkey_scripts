@@ -6,7 +6,7 @@
 // @match       https://www.google.com/search
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.15
+// @version     0.16
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -66,8 +66,10 @@
       regex:/ ?gh ?/,
       url:`https://github.com/`
     },
-    
-    
+    {
+      regex:/^(spotify)\W?(.*)/,
+      funct:spotifyRedirect
+    },
   ];
   
   redirect_list.forEach((cur)=>{
@@ -152,4 +154,10 @@ function giphyRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
   movePage(`https://giphy.com/search/${s}`)
+}
+
+function spotifyRedirect(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[2];
+  movePage(`https://open.spotify.com/search/${s}`)
 }
