@@ -35,11 +35,20 @@ function toast(msg,time=5000,style={color:"white",backgroundColor:"green"}){
 
 	console.log(document.querySelector("[findme=drew]"));
   
+  let timeout_id;
+  function closeFunction(){
+    console.log('findmedrew close fucntion')
+    document.documentElement.removeChild(load);
+    clearTimeout(timeout_id);
+  }
+  
   // remove after time lapsed, if greater than 0
   if(time>0){
-    setTimeout(()=>{
-      document.documentElement.removeChild(load);
+    timeout_id = setTimeout(()=>{
+      closeFunction();
     },time);
   }
+  
+  return closeFunction;
 
 }
