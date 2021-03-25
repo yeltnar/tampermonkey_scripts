@@ -89,3 +89,20 @@ const textEleSearch = (()=>{
 
   
 })();
+
+
+
+async function waitOnElement(element_text, loop_time){
+  
+  if( timeoutPromise===undefined ){
+    throw new Error("timeoutPromise is not defined; make sure to include it in the top level user script to use waitOnElement");
+  } 
+  
+  let select_a_date_button = textEleSearch(element_text); 
+  while(select_a_date_button===undefined){
+    console.log
+    await timeoutPromise(loop_time);
+    select_a_date_button = textEleSearch("Select A Date"); 
+  }
+  return select_a_date_button;
+}
