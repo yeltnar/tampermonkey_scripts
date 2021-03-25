@@ -3,7 +3,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://mail.notes.na.collabserv.com/livemail/($Calendar)/*
 // @grant       none
-// @version     0.5
+// @version     0.6
 // @author      -
 // @run-at      document-idle
 // @description 3/15/2021, 9:55:34 AM
