@@ -12,21 +12,34 @@
 // @require     https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/toast.notauser.js
 // ==/UserScript==
 
-(()=>{
+(async ()=>{
 
   console.log("calendar window?");
-  setTimeout(()=>{
+
     console.log('main timeout')
+
+    let online_meeting,location;
+
+    while( online_meeting===undefined && location===undefined ){
+      online_meeting = await textEleSearch("Online Meeting"); // prefer this one?
+      location = await textEleSearch("Location");
+      if(online_meeting===undefined && location===undefined){
+        await timeoutPromise(250);
+      }
+    }
     
-    const online_meeting = textEleSearch("Online Meeting"); // prefer this one?
-    const location = textEleSearch("Location");
-    console.log({online_meeting,location});
+    // console.log({online_meeting,location});
     
     const ele = online_meeting===undefined?location:online_meeting;
     console.log({location_ele:ele});
 
     // `https://` all the way to the end 
-    const link_ele = getCousinEle({tester:/(https?:\/\/.*)/, ele});
+
+    if(ele===undefined||ele===null){
+      // debugger
+    }
+
+    const link_ele = await getCousinEle({tester:/(https?:\/\/.*)/, ele});
     const link = link_ele.innerText.split(" ")[0];
     //.split(" ")[0];
     console.log({
@@ -36,10 +49,10 @@
     
     
     // meeting_time = 
-    let time_ele = textEleSearch(/time:/i) || textEleSearch("Starts:");
+    let time_ele = (await textEleSearch(/time:/i)) || (await textEleSearch("Starts:"));
     time_ele = Array.isArray(time_ele) ? time_ele[0] : time_ele;
     console.log({time_ele});
-    let time_cousin_ele = getCousinEle({tester:/[0-9]{2}\/[0-9]{2}\/[0-9]{4}/,ele:time_ele});
+    let time_cousin_ele = await getCousinEle({tester:/[0-9]{2}\/[0-9]{2}\/[0-9]{4}/,ele:time_ele});
     console.log({time_cousin_ele});
     time_cousin_ele = Array.isArray(time_cousin_ele) ? time_cousin_ele[0] : time_cousin_ele;
     const time_str = time_cousin_ele.innerText.split(" - ")[0];
@@ -64,8 +77,6 @@
     }else{
       console.log('too far in past; not opening link');
     }
-
-  },3000); // try to get all the nested iframes loaded 
   
 })();
 
