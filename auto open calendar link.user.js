@@ -7,6 +7,7 @@
 // @author      -
 // @run-at      document-idle
 // @description 3/15/2021, 9:55:34 AM
+// @require     https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/timeoutPromise.notauser.js
 // @require     https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/textEleSearch.notauser.js
 // @require     https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/getCousinEle.notauser.js
 // @require     https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/toast.notauser.js
