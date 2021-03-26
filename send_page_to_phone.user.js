@@ -42,7 +42,7 @@ const {sendToPhone} = expressFirebase;
         url = fixForYoutube(url);
         url = encodeURIComponent(url);
         await sendToPhone(url)
-        toast("Sent to phone", 3000, { backgroundColor: "pink" });
+        toast("Sent to phone", 1500, { backgroundColor: "pink" });
     }
   
     GM_registerMenuCommand("Send to Phone", sendThisPageToPhone);
