@@ -6,7 +6,7 @@
 // @match       https://www.google.com/search
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.17
+// @version     0.18
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -73,6 +73,10 @@
     {
       regex:/^(youtube|yt)\W?(.*)/,
       funct:youtubeRedirect
+    },
+    {
+      regex:/^(sn|soapnote)\W?(.*)/,
+      funct:sopanoteRedirect
     },
   ];
   
@@ -170,4 +174,10 @@ function youtubeRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
   movePage(`https://www.youtube.com/results?search_query=${s}`)
+}
+
+function sopanoteRedirect(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[2];
+  movePage(`https://yeltnar.github.io/soapnote/#${s}`);
 }
