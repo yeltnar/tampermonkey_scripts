@@ -6,7 +6,7 @@
 // @match       https://www.google.com/search
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.19
+// @version     0.20
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -131,53 +131,54 @@ function closeOldUrl(new_url){
 function googleRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
-  movePage(`https://www.google.com/search?q=${s}`)
+  movePage(`https://www.google.com/search?q=${encodeURIComponent(s)}`)
 }
 
 function wolframAlpha(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
-  movePage(`https://www.wolframalpha.com/input/?i=${s}`)
+  // alert(`${s} ${encodeURIComponent(s)}`);
+  movePage(`https://www.wolframalpha.com/input/?i=${encodeURIComponent(s)}`)
 }
 
 function emojipediaRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
-  movePage(`https://emojipedia.org/search/?q=${s}`)
+  movePage(`https://emojipedia.org/search/?q=${encodeURIComponent(s)}`)
 }
 
 function mapsRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
-  movePage(`https://www.google.com/maps/search/${s}`)
+  movePage(`https://www.google.com/maps/search/${encodeURIComponent(s)}`)
 }
 
 function amazonRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
-  movePage(`https://www.amazon.com/s?k=${s}`)
+  movePage(`https://www.amazon.com/s?k=${encodeURIComponent(s)}`)
 }
 
 function giphyRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
-  movePage(`https://giphy.com/search/${s}`)
+  movePage(`https://giphy.com/search/${encodeURIComponent(s)}`);
 }
 
 function spotifyRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
-  movePage(`https://open.spotify.com/search/${s}`)
+  movePage(`https://open.spotify.com/search/${encodeURIComponent(s)}`)
 }
 
 function youtubeRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
-  movePage(`https://www.youtube.com/results?search_query=${s}`)
+  movePage(`https://www.youtube.com/results?search_query=${encodeURIComponent(s)}`)
 }
 
 function sopanoteRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
-  movePage(`https://yeltnar.github.io/soapnote/#${s}`);
+  movePage(`https://yeltnar.github.io/soapnote/#${encodeURIComponent(s)}`);
 }
