@@ -5,6 +5,7 @@
 // @match       https://serverfault.com/*
 // @match       https://security.stackexchange.com/*
 // @match       https://crypto.stackexchange.com/*
+// @match       https://superuser.com/*
 // @grant       none
 // @version     0.2
 // @author      -
