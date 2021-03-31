@@ -3,6 +3,7 @@
 // @namespace   andbrant
 // @match       https://stackoverflow.com/*
 // @match       https://serverfault.com/*
+// @match       https://security.stackexchange.com/*
 // @grant       none
 // @version     0.1
 // @author      -
