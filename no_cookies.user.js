@@ -4,8 +4,9 @@
 // @match       https://stackoverflow.com/*
 // @match       https://serverfault.com/*
 // @match       https://security.stackexchange.com/*
+// @match       https://crypto.stackexchange.com/*
 // @grant       none
-// @version     0.1
+// @version     0.2
 // @author      -
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/textEleSearch.notauser.js
