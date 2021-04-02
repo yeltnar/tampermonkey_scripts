@@ -10,9 +10,9 @@
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        GM_registerMenuCommand
-// @grant        GM_XMLHttpRequest
+// @grant        GM_xmlhttpRequest
 // @require      https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/toast.notauser.js
-// @require      https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/XMLHttpRequestPromise.notauser.js
+// @require      https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/GM_xmlhttpRequest.notauser.js
 // @require      https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/expressFirebase.notauser.js
 // ==/UserScript==
 
