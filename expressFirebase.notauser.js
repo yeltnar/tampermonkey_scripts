@@ -9,7 +9,7 @@ const expressFirebase = (()=>{
 
     let req_url = `https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush?url=${url}&title=${title}&deviceId=${deviceId}&apikey=${apikey}`;
     console.log({ req_url });
-    await XMLHttpRequestPromise(req_url);
+    await xmlHttpRequest(req_url);
     console.log("called send to join");
   }
 

@@ -1,6 +1,6 @@
-function XMLHttpRequestPromise(url,method="GET"){
+function old_XMLHttpRequestPromise(url,method="GET"){
   return new Promise((resolve,reject)=>{
-    var xhr = new GM_xmlhttpRequest();
+    var xhr = GM_xmlhttpRequest();
     xhr.withCredentials = true;
     xhr.addEventListener("readystatechange", function() {
       if(this.readyState === 4) {
@@ -9,5 +9,19 @@ function XMLHttpRequestPromise(url,method="GET"){
     });
     xhr.open(method, url);
     xhr.send();
+  });
+}
+
+
+function xmlHttpRequest(url, method = "GET") {
+
+  return new Promise((resolve,reject)=>{
+    GM.xmlHttpRequest({
+      method,
+      url,
+      onload: function (response) {
+        resolve(response);
+      }
+    });
   });
 }
