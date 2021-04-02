@@ -1,4 +1,4 @@
-function xmlHttpRequestPromise(url, method = "GET") {
+function GM_xmlHttpRequestPromise(url, method = "GET") {
   return new Promise((resolve,reject)=>{
     GM_xmlhttpRequest({
       method,
