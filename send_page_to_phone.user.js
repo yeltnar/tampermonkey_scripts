@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         send page to phone
 // @namespace    http://tampermonkey.net/
-// @version      0.2.19
+// @version      0.2.20
 // @description  send page to phone
 // @author       You
 // @match        http://*/*
