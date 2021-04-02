@@ -1,6 +1,6 @@
 function xmlHttpRequest(url, method = "GET") {
   return new Promise((resolve,reject)=>{
-    GM_xmlHttpRequest({
+    GM_xmlhttpRequest({
       method,
       url,
       onload: function (response) {
