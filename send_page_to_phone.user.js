@@ -11,11 +11,13 @@
 // @grant        GM_getValue
 // @grant        GM_registerMenuCommand
 // @require      https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/toast.notauser.js
+// @require      https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/XMLHttpRequestPromise.notauser.js
 // @require      https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/expressFirebase.notauser.js
 // ==/UserScript==
 
 let last_key="";
 const {sendToPhone} = expressFirebase;
+delete expressFirebase;
 
 (()=>{
     'use strict';
