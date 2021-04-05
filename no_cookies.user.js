@@ -3,11 +3,10 @@
 // @namespace   andbrant
 // @match       https://stackoverflow.com/*
 // @match       https://serverfault.com/*
-// @match       https://security.stackexchange.com/*
-// @match       https://crypto.stackexchange.com/*
+// @match       https://*.stackexchange.com/*
 // @match       https://superuser.com/*
 // @grant       none
-// @version     0.2
+// @version     0.3
 // @author      -
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/textEleSearch.notauser.js
