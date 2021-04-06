@@ -7,11 +7,27 @@ const textEleSearch = (() => {
     if (ele[options.key] === undefined || ele[options.key] === null) { return false; }
     return ele[options.key].includes(tester);
   }
+  function arrayTester(tester, ele, options, shouldCheckChildren){
+      // console.log(`inside the testing function ${Array.isArray(tester)?tester[0]:tester}`);
+      
+      let result = false;
+
+      // try all testers until we find a match; when match return true
+      for( let i=0; i<tester.length; i++ ){
+        const cur_result = shouldCheckChildren(tester[i],ele); 
+        if(cur_result===true){
+          result = cur_result;
+          return result; // break out of loop; we know we've matched 
+        }
+      }
+
+      return result;
+  }
 
   function shouldCheckChildren(tester, ele, options = {}) {
 
     options = { key: "innerText", ...options };
-    let { testFunct } = { ...options };
+    let { testFunct } = options;
 
     if (ele === null) { debugger }
 
@@ -20,10 +36,13 @@ const textEleSearch = (() => {
         testFunct = regexTester;
       } else if (typeof tester === 'string') {
         testFunct = stringTester;
+      }else if( Array.isArray(tester) ){
+        testFunct = arrayTester;
       }
     }
 
     if (testFunct === undefined) {
+      console.error({tester, ele, options});
       throw new Error("testerFunct not found");
     } else {
       return testFunct(tester, ele, options, shouldCheckChildren);
@@ -31,7 +50,7 @@ const textEleSearch = (() => {
 
   }
 
-  return async function textEleSearch(tester, top_element) {
+  return async function textEleSearch(tester, top_element, options) {
 
     if (top_element === undefined) { top_element = document.body; } // if no top element, set to this page's body 
 
@@ -44,7 +63,7 @@ const textEleSearch = (() => {
       const child_arr = [...children]; // children isn't actually an array with all the functions 
 
       const child_arr_deep_results = await Promise.all(child_arr.map(async (cur, i, arr) => {
-        return await textEleSearch(tester, cur);
+        return await textEleSearch(tester, cur, options);
       }));
 
       return child_arr_deep_results.filter((cur, i, arr) => {
@@ -62,21 +81,21 @@ const textEleSearch = (() => {
 
       const ele = top_element.contentDocument.querySelector('body');
 
-      if (shouldCheckChildren(tester, ele)) {
+      if (shouldCheckChildren(tester, ele, options)) {
         filtered_descendants = await filterChildren(ele.children);
         filtered_descendants = filtered_descendants.length === 0 ? undefined : filtered_descendants;
         filtered_descendants = filtered_descendants?.length === 1 ? filtered_descendants[0] : filtered_descendants;
       }
     }
     else if (top_element.childElementCount < 1) { // no children, check if pass and return element if it does   
-      if (shouldCheckChildren(tester, top_element)) {
+      if (shouldCheckChildren(tester, top_element, options)) {
         filtered_descendants = top_element;
       }
     }
     else {
 
       // neither -> check normal body
-      if (shouldCheckChildren(tester, top_element)) {
+      if (shouldCheckChildren(tester, top_element, options)) {
         filtered_descendants = await filterChildren(top_element.children);
         if (filtered_descendants.length === 0) {
           filtered_descendants = [top_element] // if children don't match, set to self // make an array so the next line couple of lines work out
