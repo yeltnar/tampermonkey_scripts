@@ -26,7 +26,7 @@ const textEleSearch = (() => {
     if (testFunct === undefined) {
       throw new Error("testerFunct not found");
     } else {
-      return testFunct(tester, ele, options);
+      return testFunct(tester, ele, options, shouldCheckChildren);
     }
 
   }
