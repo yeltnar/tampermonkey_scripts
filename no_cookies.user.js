@@ -6,12 +6,12 @@
 // @match       https://*.stackexchange.com/*
 // @match       https://superuser.com/*
 // @grant       none
-// @version     0.3
+// @version     0.4
 // @author      -
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/textEleSearch.notauser.js
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/getCousinEle.notauser.js
-// @run-at      document-idle
+// @nv run-at      document-idle
 // @description 3/30/2021, 1:04:55 PM
 // ==/UserScript==
 
