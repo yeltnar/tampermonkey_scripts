@@ -6,7 +6,7 @@
 // @match       https://www.google.com/search
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.20
+// @version     0.21
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -77,6 +77,18 @@
     {
       regex:/^(sn|soapnote)\W?(.*)/,
       funct:sopanoteRedirect
+    },
+    {
+      regex:/^toast$/,
+      url:`https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/toast.notauser.js`
+    },
+    {
+      regex:/^promiseTimeout$/,
+      url:`https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/toast.notauser.js`
+    },
+    {
+      regex:/^tmscripts/,
+      url:`https://github.com/yeltnar/tampermonkey_scripts/`
     },
   ];
   
