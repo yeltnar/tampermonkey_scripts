@@ -39,27 +39,27 @@
       url:`https://chrome.google.com/webstore/category/extensions`
     },
     {
-      regex:/^(wolfram ?alpha|wa)\W?(.*)/,
+      regex:/^(wolfram ?alpha|wa) (.*)/,
       funct:wolframAlpha
     },
     {
-      regex:/^(google|gg)\W?(.*)/,
+      regex:/^(google|gg) (.*)/,
       funct:googleRedirect
     },
     {
-      regex:/^(giphy)\W?(.*)/,
+      regex:/^(giphy) (.*)/,
       funct:giphyRedirect
     },
     {
-      regex:/^(emoji)\W?(.*)/,
+      regex:/^(emoji) (.*)/,
       funct:emojipediaRedirect
     },
     {
-      regex:/^(maps)\W?(.*)/,
+      regex:/^(maps) (.*)/,
       funct:mapsRedirect
     },
     {
-      regex:/^(amazon|az)\W?(.*)/,
+      regex:/^(amazon|az) (.*)/,
       funct:amazonRedirect
     },
     {
@@ -67,15 +67,15 @@
       url:`https://github.com/`
     },
     {
-      regex:/^(spotify)\W?(.*)/,
+      regex:/^(spotify) (.*)/,
       funct:spotifyRedirect
     },
     {
-      regex:/^(youtube|yt)\W?(.*)/,
+      regex:/^(youtube|yt) (.*)/,
       funct:youtubeRedirect
     },
     {
-      regex:/^(sn|soapnote)\W?(.*)/,
+      regex:/^(sn|soapnote) (.*)/,
       funct:sopanoteRedirect
     },
     {
