@@ -6,7 +6,7 @@
 // @match       https://www.google.com/search
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.21
+// @version     0.22
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -90,6 +90,10 @@
       regex:/^tmscripts/,
       url:`https://github.com/yeltnar/tampermonkey_scripts/`
     },
+    {
+      regex: /^imdb (.*)/,
+      funct:imbdRedirect
+    }
   ];
   
   redirect_list.forEach((cur)=>{
@@ -194,3 +198,23 @@ function sopanoteRedirect(regex){
   const s=regex.exec(q)[2];
   movePage(`https://yeltnar.github.io/soapnote/#${encodeURIComponent(s)}`);
 }
+
+function imbdRedirect(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[1];
+  // debugger;
+  // alert(s);
+  movePage(`https://www.imdb.com/find?q=${encodeURIComponent(s)}`);
+}
+
+
+
+
+
+
+
+
+
+
+
+
