@@ -6,7 +6,7 @@
 // @match       https://www.google.com/search
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.22
+// @version     0.23
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
