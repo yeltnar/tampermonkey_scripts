@@ -2,8 +2,9 @@
 // @name        auto open calendar link
 // @namespace   Violentmonkey Scripts
 // @match       https://mail.notes.na.collabserv.com/livemail/($Calendar)/*
+// @match       https://gd.mail.ibm.com/mail/1/0/*/($Calendar)/*
 // @grant       none
-// @version     0.6
+// @version     0.7
 // @author      -
 // @run-at      document-idle
 // @description 3/15/2021, 9:55:34 AM
@@ -15,7 +16,7 @@
 
 (async ()=>{
 
-  console.log("calendar window?");
+  console.log("calendar window?"); 
 
     console.log('main timeout')
 
