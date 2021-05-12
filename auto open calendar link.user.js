@@ -4,7 +4,7 @@
 // @match       https://mail.notes.na.collabserv.com/livemail/($Calendar)/*
 // @match       https://gd.mail.ibm.com/mail/1/0/*/($Calendar)/*
 // @grant       none
-// @version     0.7
+// @version     0.8
 // @author      -
 // @run-at      document-idle
 // @description 3/15/2021, 9:55:34 AM
@@ -15,8 +15,12 @@
 // ==/UserScript==
 
 (async ()=>{
+  
+  if(window.top!==window.self){
+    return;
+  }
 
-  console.log("calendar window?"); 
+  console.log("calendar window? "+window.location.href); 
 
     console.log('main timeout')
 
@@ -72,6 +76,7 @@
     
     if( open_in > -1*1000*60*10 ){ // if too far in the past, don't open
       const date_str = new Intl.DateTimeFormat('en-US',{dateStyle:"medium",timeStyle:"medium"}).format(open_date);
+      console.log('going to toast calendar window')
       toast(`Opening '${link}' ${date_str}`, 10000, { backgroundColor: "#cccccc", color:"rgb(0, 133, 113)" });
       setTimeout(()=>{
         open(link);  
