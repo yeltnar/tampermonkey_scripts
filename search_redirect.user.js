@@ -6,7 +6,7 @@
 // @match       https://www.google.com/search
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.23
+// @version     0.24
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -93,6 +93,10 @@
     {
       regex: /^imdb (.*)/,
       funct:imbdRedirect
+    },
+    {
+      regex: /^r\/[^\W]*$/,
+      funct:lazyReddit
     }
   ];
   
@@ -205,6 +209,13 @@ function imbdRedirect(regex){
   // debugger;
   // alert(s);
   movePage(`https://www.imdb.com/find?q=${encodeURIComponent(s)}`);
+}
+
+function lazyReddit(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[0];
+  console.log(`found reddit page ${s}`);
+  movePage(`https://reddit.com/${s}`);
 }
 
 
