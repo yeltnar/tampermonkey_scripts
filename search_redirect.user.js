@@ -6,7 +6,7 @@
 // @match       https://www.google.com/search
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.24
+// @version     0.25
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -194,7 +194,11 @@ function spotifyRedirect(regex){
 function youtubeRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
-  movePage(`https://www.youtube.com/results?search_query=${encodeURIComponent(s)}`)
+  if(s===""){
+    movePage(`https://www.youtube.com`);
+  }else{
+    movePage(`https://www.youtube.com/results?search_query=${encodeURIComponent(s)}`);    
+  }
 }
 
 function sopanoteRedirect(regex){
