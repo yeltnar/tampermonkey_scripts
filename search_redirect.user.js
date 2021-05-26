@@ -4,9 +4,10 @@
 // @match       https://www.startpage.com/do/dsearch
 // @match       https://www.startpage.com/do/search
 // @match       https://www.google.com/search
+// @match       https://duckduckgo.com/?*
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.26
+// @version     0.27
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -45,6 +46,14 @@
     {
       regex:/^(google|gg) (.*)/,
       funct:googleRedirect
+    },
+    {
+      regex:/^(duckduckgo|ddg) (.*)/,
+      funct:duckduckgoRedirect
+    },
+    {
+      regex:/^(startpage|sp) (.*)/,
+      funct:startpageRedirect
     },
     {
       regex:/^(giphy) (.*)/,
@@ -127,6 +136,9 @@ function getQuery(url=window.location.href){
   }else if(/startpage.com/.test(url)){
     console.log("on startpage page");
     return new URLSearchParams(window.location.search).get("query");
+  }else if(/duckduckgo.com/.test(url)){
+    console.log("on duckduckgo page");
+    return new URLSearchParams(window.location.search).get("q");
   }else{
     console.log("unknown page "+url);
     return "";
@@ -156,6 +168,18 @@ function googleRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
   movePage(`https://www.google.com/search?q=${encodeURIComponent(s)}`)
+}
+
+function duckduckgoRedirect(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[2];
+  movePage(`https://www.duckduckgo.com/?q=${encodeURIComponent(s)}`)
+}
+
+function startpageRedirect(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[2];
+  movePage(`https://www.startpage.com/do/dsearch?query=${encodeURIComponent(s)}`);
 }
 
 function wolframAlpha(regex){
