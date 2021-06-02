@@ -7,7 +7,7 @@
 // @match       https://duckduckgo.com/?*
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.27
+// @version     0.28
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -110,7 +110,11 @@
     {
       regex: /^r\/[^\W]*$/,
       funct:lazyReddit
-    }
+    },
+    {
+      regex:/^(fdroid) (.*)/,
+      funct:fdroidRedirect
+    },
   ];
   
   redirect_list.forEach((cur)=>{
@@ -257,7 +261,12 @@ function youtubeDownload(regex){
   movePage(`https://www.alltubedownload.net/info?url=${encodeURIComponent(s)}`);
 }
 
-
+function fdroidRedirect(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[2];
+  console.log(`loading ${s} with fdroidRedirect`);  
+  movePage(`https://search.f-droid.org/?q=${encodeURIComponent(s)}&lang=en`);
+}
 
 
 
