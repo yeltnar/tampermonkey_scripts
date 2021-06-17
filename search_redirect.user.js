@@ -3,11 +3,12 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://www.startpage.com/do/dsearch
 // @match       https://www.startpage.com/do/search
+// @match       https://www.startpage.com/sp/search
 // @match       https://www.google.com/search
 // @match       https://duckduckgo.com/?*
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.28
+// @version     0.29
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
