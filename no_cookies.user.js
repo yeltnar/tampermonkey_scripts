@@ -5,8 +5,9 @@
 // @match       https://serverfault.com/*
 // @match       https://*.stackexchange.com/*
 // @match       https://superuser.com/*
+// @match       https://askubuntu.com/*
 // @grant       none
-// @version     0.4
+// @version     0.5
 // @author      -
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/textEleSearch.notauser.js
