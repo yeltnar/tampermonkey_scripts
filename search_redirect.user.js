@@ -8,7 +8,7 @@
 // @match       https://duckduckgo.com/?*
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.29
+// @version     0.30
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -229,6 +229,8 @@ function youtubeRedirect(regex){
   const s=regex.exec(q)[2];
   if(s===""){
     movePage(`https://www.youtube.com`);
+  }else if( s==="wl" || s==="watchlater" ){
+    movePage(`https://www.youtube.com/playlist?list=WL`);
   }else{
     movePage(`https://www.youtube.com/results?search_query=${encodeURIComponent(s)}`);    
   }
