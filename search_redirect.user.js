@@ -8,7 +8,7 @@
 // @match       https://duckduckgo.com/?*
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.30
+// @version     0.31
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -73,8 +73,8 @@
       funct:amazonRedirect
     },
     {
-      regex:/\bgh\b/,
-      url:`https://github.com/`
+      regex:/^(gh) (.*)/,
+      funct: githubRedirect
     },
     {
       regex:/^(spotify) (.*)/,
@@ -115,6 +115,10 @@
     {
       regex:/^(fdroid) (.*)/,
       funct:fdroidRedirect
+    },
+    {
+      regex:/^(apkmirror) (.*)/,
+      funct:apkmirrorRedirect
     },
   ];
   
@@ -212,6 +216,20 @@ function amazonRedirect(regex){
   movePage(`https://www.amazon.com/s?k=${encodeURIComponent(s)}`)
 }
 
+function githubRedirect(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[2];
+  console.log(`loading ${s} with githubRedirect`);  
+  
+  if(s==="me searchredirect"){
+    return movePage(`https://github.com/yeltnar/tampermonkey_scripts/blob/master/search_redirect.user.js`);
+  }else if(s==="me"){
+    return movePage(`https://github.com/yeltnar/`);
+  }
+  
+  return movePage(`https://github.com/`);
+}
+
 function giphyRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
@@ -271,7 +289,12 @@ function fdroidRedirect(regex){
   movePage(`https://search.f-droid.org/?q=${encodeURIComponent(s)}&lang=en`);
 }
 
-
+function apkmirrorRedirect(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[2];
+  console.log(`loading ${s} with apkmirrorRedirect`);  
+  movePage(`https://www.apkmirror.com/?searchtype=apk&s=${encodeURIComponent(s)}`);
+}
 
 
 
