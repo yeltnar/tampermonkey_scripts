@@ -8,7 +8,7 @@
 // @match       https://duckduckgo.com/?*
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.31
+// @version     0.32
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -120,6 +120,10 @@
       regex:/^(apkmirror) (.*)/,
       funct:apkmirrorRedirect
     },
+    {
+      regex:/^(wikipedia|wiki) (.*)/,
+      funct:wikipediaRedirect
+    },
   ];
   
   redirect_list.forEach((cur)=>{
@@ -159,7 +163,8 @@ async function movePage(new_url){
   if(GM_info.platform.os==="android"){ // don't have containers or auto open in new containers on mobile 
     window.location.href=new_url;
   }else{
-    GM_openInTab(new_url,{insert:true});
+    // GM_openInTab(new_url,{insert:true});
+    GM_openInTab(new_url,{active:true});
     closeOldUrl(new_url);
   }
 }
@@ -294,6 +299,12 @@ function apkmirrorRedirect(regex){
   const s=regex.exec(q)[2];
   console.log(`loading ${s} with apkmirrorRedirect`);  
   movePage(`https://www.apkmirror.com/?searchtype=apk&s=${encodeURIComponent(s)}`);
+}
+function wikipediaRedirect(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[2];
+  console.log(`loading ${s} with wikipediaRedirect`);  
+  movePage(`https://en.wikipedia.org/?search=${encodeURIComponent(s)}`)
 }
 
 
