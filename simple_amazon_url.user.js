@@ -2,8 +2,8 @@
 // @name        Simple Amazon URL
 // @namespace   andbrant
 // @match       https://www.amazon.com/*
-// @grant       none
-// @version     0.1
+// @grant       GM_registerMenuCommand
+// @version     0.2
 // @author      -
 // @dont-require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
 // @dont-require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/textEleSearch.notauser.js
