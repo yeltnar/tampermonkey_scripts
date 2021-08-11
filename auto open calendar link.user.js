@@ -4,7 +4,7 @@
 // @match       https://mail.notes.na.collabserv.com/livemail/($Calendar)/*
 // @match       https://gd.mail.ibm.com/mail/1/0/*/($Calendar)/*
 // @grant       none
-// @version     0.8
+// @version     0.9
 // @author      -
 // @run-at      document-idle
 // @description 3/15/2021, 9:55:34 AM
@@ -44,14 +44,23 @@
     if(ele===undefined||ele===null){
       // debugger
     }
-
-    const link_ele = await getCousinEle({tester:/(https?:\/\/.*)/, ele});
-    const link = link_ele.innerText.split(" ")[0];
-    //.split(" ")[0];
-    console.log({
-      link_ele,
-      link,
-    });
+  
+    const link = await(async()=>{
+      try{
+        const link_ele = await getCousinEle({tester:/(https?:\/\/.*)/, ele});
+        const link = link_ele.innerText.split(" ")[0];
+        //.split(" ")[0];
+        console.log({
+          link_ele,
+          link,
+        });
+        return link;
+      }catch(e){
+        return "https://yeltnar.github.io/soapnote/#No%20calendar%20link%20found%20but%20its%20meeting%20time";
+      }
+    })();
+  
+  console.log({link})
     
     
     // meeting_time = 
