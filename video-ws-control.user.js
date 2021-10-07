@@ -7,7 +7,7 @@
 // @grant       none
 // @grant       GM_setValue
 // @grant       GM_getValue
-// @version     0.9
+// @version     0.10
 // @author      -
 // @description 10/7/2020, 11:58:24 AM
 // @run-at      document-end
@@ -34,7 +34,7 @@
 
         // add event listeners for the video
         video_element.addEventListener("play", () => {
-            console.log('you clicked play');
+            console.log('you clicked play ',video_element);
             socketSend(getPlayAction(video_element));
         });
         video_element.addEventListener("pause", () => {
@@ -63,9 +63,12 @@
 
     // const url = "wss://Node-WSS.yeltnar.repl.co";
     // const url = "wss://192.168.1.132:8080";
-    const base_url = "abra-testing-node-server.herokuapp.com";
-    const ws_url = `wss://${base_url}`;
-    const http_url = `https://${base_url}`;
+    // const base_url = "abra-testing-node-server.herokuapp.com";
+    const base_url = "localhost:8080";
+    const ws_url = `ws://${base_url}`;
+    // const ws_url = `wss://${base_url}`;
+    const http_url = `http://${base_url}`;
+    // const http_url = `https://${base_url}`;
 
     let socket = new WebSocket(ws_url);
   
@@ -73,9 +76,9 @@
       socketSend(getKeepAliveAction())
     },30*1000);
   
-    const ping_interval_http = setInterval(()=>{
-      fetch(http_url).then(()=>{console.log('http ping done')});
-    },60*1000*5);
+    // const ping_interval_http = setInterval(()=>{
+    //   fetch(http_url).then(()=>{console.log('http ping done')});
+    // },60*1000*5);
 
     socket.onopen = function (e) {
         const obj = {
@@ -136,7 +139,8 @@
         console.log(action_obj.session_id)
         console.log(current_session_id)
       
-      if( current_session_id!==undefined && action_obj.session_id===current_session_id ){
+      // if( current_session_id!==undefined && action_obj.session_id===current_session_id ){
+      if( true ){
           
           // update time seperatly 
           if (action_obj.current_time !== undefined) {
@@ -165,13 +169,13 @@
 
         let current_time;
         if (video_element !== undefined) {
-            current_time = video_element.getCurrentTime();
+            // current_time = video_element.getCurrentTime();
         }
 
         return {
             "videocontrol": true,
             "action": "play",
-            current_time
+            // current_time
         }
     }
 
