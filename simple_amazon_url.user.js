@@ -3,7 +3,7 @@
 // @namespace   andbrant
 // @match       https://www.amazon.com/*
 // @grant       GM_registerMenuCommand
-// @version     0.3
+// @version     0.4
 // @author      github/yeltnar
 // @dont-require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
 // @dont-require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/textEleSearch.notauser.js
