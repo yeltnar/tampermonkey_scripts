@@ -15,14 +15,22 @@
 function simpleAmazonURL(){  
   let product = /\/(([A-Z]|[0-9]){10})/.exec(window.location.href)[1];
   
-  if( window.location.href !== `https://www.amazon.com/dp/${product}` ){
-    console.log({
-      msg:"moving to simple page",
-      href: window.location.href,
-      new: `https:/www./amazon.com/dp/${product}`
-    });
-    window.location.href = `https://amazon.com/dp/${product}`;
+  // don't redirect wishlists
+  if( window.location.href.includes('wishlist') ){
+    return
   }
+  
+  // don't redirect simple urls
+  if( window.location.href === `https://www.amazon.com/dp/${product}` ){
+    return
+  }
+  
+  console.log({
+    msg:"moving to simple page",
+    href: window.location.href,
+    new: `https:/www./amazon.com/dp/${product}`
+  });
+  window.location.href = `https://amazon.com/dp/${product}`;
 }
 
 (()=>{
