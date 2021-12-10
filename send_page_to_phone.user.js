@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         send page to phone
 // @namespace    http://tampermonkey.net/
-// @version      0.2.21
+// @version      0.2.22
 // @description  send page to phone
 // @author       You
 // @match        http://*/*
@@ -44,11 +44,16 @@ delete expressFirebase;
         let url = window.location.href;
         url = fixForYoutube(url);
         url = encodeURIComponent(url);
-        await sendToPhone(url)
+        const r = await sendToPhone(url);
+        console.log({send_reply:r});
         toast("Sent to phone", 1500, { backgroundColor: "pink" });
     }
   
     GM_registerMenuCommand("Send to Phone", sendThisPageToPhone);
+    GM_registerMenuCommand("test", async()=>{
+      const r = await GM_xmlHttpRequestPromise('https://do.andbrant.com/');
+      console.log(r);
+    });
 
     window.sendToPhone = sendToPhone;
     window.sendThisPageToPhone = sendThisPageToPhone;
