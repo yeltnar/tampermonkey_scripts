@@ -8,7 +8,7 @@
 // @match       https://duckduckgo.com/?*
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.32
+// @version     0.33
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -124,6 +124,10 @@
       regex:/^(wikipedia|wiki) (.*)/,
       funct:wikipediaRedirect
     },
+    {
+      regex:/^(gmail) (.*)/,
+      funct:gmailRedirect
+    },    
   ];
   
   redirect_list.forEach((cur)=>{
@@ -305,6 +309,12 @@ function wikipediaRedirect(regex){
   const s=regex.exec(q)[2];
   console.log(`loading ${s} with wikipediaRedirect`);  
   movePage(`https://en.wikipedia.org/?search=${encodeURIComponent(s)}`)
+}
+function gmailRedirect(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[2];
+  console.log(`loading ${s} with gmailRedirect`);
+  movePage(`https://mail.google.com/mail/u/0/?pli=1#search/${encodeURIComponent(s)}`)
 }
 
 
