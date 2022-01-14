@@ -8,7 +8,7 @@
 // @match       https://duckduckgo.com/?*
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.33
+// @version     0.34
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
@@ -313,8 +313,13 @@ function wikipediaRedirect(regex){
 function gmailRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
+  // 
   console.log(`loading ${s} with gmailRedirect`);
-  movePage(`https://mail.google.com/mail/u/0/?pli=1#search/${encodeURIComponent(s)}`)
+  if(s==="compose"){
+    movePage(`https://mail.google.com/mail/u/0/?pli=1#inbox?compose=new`);
+  }else{
+    movePage(`https://mail.google.com/mail/u/0/?pli=1#search/${encodeURIComponent(s)}`);    
+  }
 }
 
 
