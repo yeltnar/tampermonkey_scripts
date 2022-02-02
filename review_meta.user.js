@@ -6,7 +6,7 @@
 // @dontmatch       https://.*\.amazon.com/*
 // @match       https://www.amazon.com/*
 // @grant       none
-// @version     0.1
+// @version     0.2
 // @author      -
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/textEleSearch.notauser.js
