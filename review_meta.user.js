@@ -34,8 +34,7 @@
       let button_result;
       const start_time=new Date();
 
-      // I know this, I assumed you would need multiple loads to get the button to show up, but I guess not
-      const interval_id = setTimeout(async()=>{
+      const interval_id = setInterval(async()=>{
         const button_text = "I understand and agree";
         const e = await textEleSearch(button_text);
         console.log({"button result is":e});
