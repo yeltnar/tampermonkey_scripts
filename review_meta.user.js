@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        New script - reviewmeta.com
+// @name       reviewmeta.com
 // @namespace   andbrant
 // @match       https://reviewmeta.com/amazon/B07PV8ZN1X
 // @dontmatch       https://.*\.amazon.com/*
