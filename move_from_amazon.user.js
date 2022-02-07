@@ -1,12 +1,12 @@
 // ==UserScript==
-// @name       reviewmeta.com
+// @name        move from amazon 
 // @namespace   andbrant
 // @match       https://reviewmeta.com/amazon/B07PV8ZN1X
 // @match       https://reviewmeta.com/amazon/.*
 // @dontmatch       https://.*\.amazon.com/*
 // @match       https://www.amazon.com/*
 // @grant       none
-// @version     0.2
+// @version     0.3
 // @author      -
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/textEleSearch.notauser.js
@@ -24,6 +24,12 @@
     let product = /\/(([A-Z]|[0-9]){10})/.exec(window.location.href)[1];
     console.log(product);
     window.location.href=`https://reviewmeta.com/amazon/${product}`;
+  }
+  
+  const moveToCamelCamelCamel=()=>{
+    let product = /\/(([A-Z]|[0-9]){10})/.exec(window.location.href)[1];
+    console.log(product);
+    window.location.href=`https://camelcamelcamel.com/product/${product}`;
   }
   
   console.log("reviewmeta drew 1.1");
@@ -58,4 +64,5 @@
   console.log("reviewmeta drew 2");
   
   GM_registerMenuCommand("moveToReviewMeta", moveToReviewMeta);
+  GM_registerMenuCommand("moveToCamelCamelCamel", moveToCamelCamelCamel);
 })();
