@@ -4,20 +4,18 @@
 // @match       https://www.startpage.com/do/dsearch
 // @match       https://www.startpage.com/do/search
 // @match       https://www.startpage.com/sp/search
+// @match       https://yeltnar.github.io/search/
 // @match       https://www.google.com/search
 // @match       https://duckduckgo.com/?*
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.34
+// @version     0.35
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @run-at document-start
 // ==/UserScript==
 
-(()=>{
-  
-  const query = getQuery();
-  console.log(`query is ${query}`);
+function main(query){
   
   const redirect_list = [
     {
@@ -127,14 +125,25 @@
     {
       regex:/^(gmail) (.*)/,
       funct:gmailRedirect
-    },    
+    }, 
+    {
+      regex:/^(fastmail) (.*)/,
+      funct:fastmailRedirect
+    }, 
+    {
+      regex:/()(.*)/,
+      funct:defaultResult
+    }, 
   ];
   
+  let found_site=false;
+  
   redirect_list.forEach((cur)=>{
-    if(checkAction(cur.regex)){
+    if(checkAction(cur.regex) && found_site!==true){
       if(cur.funct!==undefined){
         cur.funct(cur.regex, );
       }else{
+        found_site=true;
         movePage(cur.url)
       }
     }
@@ -144,6 +153,13 @@
     return regex.test(query);
   }
 
+}
+
+(()=>{
+  const query = getQuery();
+  console.log(`query is ${query}`);
+  
+  main(query);
 })();
 
 function getQuery(url=window.location.href){
@@ -156,6 +172,10 @@ function getQuery(url=window.location.href){
   }else if(/duckduckgo.com/.test(url)){
     console.log("on duckduckgo page");
     return new URLSearchParams(window.location.search).get("q");
+  }else if(/yeltnarsearch/.test(url)){
+    console.log("on yeltnarsearch page");
+    return new URLSearchParams(window.location.search).get("q");
+    // https://yeltnar.github.io/search/?yeltnarsearch&q=asdf
   }else{
     console.log("unknown page "+url);
     return "";
@@ -319,6 +339,29 @@ function gmailRedirect(regex){
     movePage(`https://mail.google.com/mail/u/0/?pli=1#inbox?compose=new`);
   }else{
     movePage(`https://mail.google.com/mail/u/0/?pli=1#search/${encodeURIComponent(s)}`);    
+  }
+}
+function fastmailRedirect(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[2];
+  // 
+  console.log(`loading ${s} with fastmailRedirect`);
+  if(s==="compose"){
+    movePage(`https://mail.google.com/mail/u/0/?pli=1#inbox?compose=new`);
+  }else{
+    movePage(`https://www.fastmail.com/mail/search:${encodeURIComponent(s)}/?u=8c994007`);
+    // movePage(`https://mail.google.com/mail/u/0/?pli=1#search/${encodeURIComponent(s)}`);    
+  }
+}
+
+function defaultResult(){
+  // alert('default')
+  if( /yeltnarsearch/.test(window.location.href) ){
+    console.log(1)
+    const q=getQuery();
+    console.log(2,q)
+    console.log(3)
+    movePage(`https://www.startpage.com/do/dsearch?query=${q}`);
   }
 }
 
