@@ -9,9 +9,10 @@
 // @match       https://duckduckgo.com/?*
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.35
+// @version     0.36
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
+// @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
 // @run-at document-start
 // ==/UserScript==
 
@@ -188,7 +189,8 @@ async function movePage(new_url){
     window.location.href=new_url;
   }else{
     // GM_openInTab(new_url,{insert:true});
-    GM_openInTab(new_url,{active:true});
+    const x = GM_openInTab(new_url,{active:true,insert:true});
+    await timeoutPromise(2000);
     closeOldUrl(new_url);
   }
 }
