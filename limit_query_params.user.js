@@ -1,0 +1,20 @@
+// ==UserScript==
+// @name        Limit query params
+// @namespace   andbrant
+// @match       https://www.redfin.com/*/home/*
+// @grant       none
+// @version     1.0
+// @author      github.com/yeltnar
+// @run-at      document-start
+// @dont-require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
+// @dont-require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/textEleSearch.notauser.js
+// @description 3/21/2022, 2:41:52 PM
+// ==/UserScript==
+
+(()=>{
+
+  if( window.location.href !== window.location.origin+window.location.pathname ){
+    window.location.href = window.location.origin+window.location.pathname;
+  }
+
+})();
