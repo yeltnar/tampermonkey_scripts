@@ -2,15 +2,21 @@
 // @name        house_hunting_scripts
 // @namespace   andbrant
 // @match       https://www.redfin.com/*/home/*
-// @grant       none
-// @version     1.0
+// @grant       GM_registerMenuCommand
+// @grant       GM_openInTab
+// @grant       GM_getValue
+// @grant       GM_setValue
+// @version     1.2
 // @author      -
-// @dont-require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
-// @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/textEleSearch.notauser.js
+// @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
+// @dont-require     https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/timeoutPromise.notauser.js
+// @require     https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/textEleSearch.notauser.js
+// @dont-require     https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/getCousinEle.notauser.js
 // @description 3/5/2022, 10:01:16 AM
 // @grant       GM_xmlhttpRequest
 // ==/UserScript==
 
+const addr_key = 'to_addresses';
 
 (async()=>{
   
@@ -54,7 +60,59 @@
     }
   }
   
-})()
+})();
+
+(async()=>{
+  
+  GM_registerMenuCommand("Open Google maps directions", googleDirections);
+  GM_registerMenuCommand("updateToAddresses", updateToAddresses);
+  
+  const to_addresses = (()=>{
+    
+    // take local storage value, or gm local storage value, then prompt if both empty 
+    let to_addr_str = localStorage.getItem(addr_key);
+    if(to_addr_str !== null && to_addr_str !== undefined){
+      GM_setValue(addr_key, to_addr_str);
+    }else{
+      to_addr_str = GM_getValue(addr_key);
+    }
+    
+    if( to_addr_str === null || to_addr_str === undefined ){
+      to_addr_str = updateToAddresses();
+    }
+    
+    console.log({to_addr_str});
+    
+    let to_addresses = JSON.parse(to_addr_str);
+    
+    return to_addresses;
+  })();
+  
+  async function googleDirections(){
+    const address = await getAddress();
+    // alert('google directions '+address);
+    
+    const fixed_address = address.split(" ").join("+");
+    
+    to_addresses.forEach(async(c,i,a)=>{
+      const fixed_dest = c.split(" ").join("+");
+      const url = `https://www.google.com/maps/dir/${fixed_address}/${fixed_dest}`;
+      console.log(url);
+      await timeoutPromise(50*i);
+      GM_openInTab(url);
+    });
+    
+    
+    console.log(address)
+  }
+  
+  async function getAddress(){
+    const top_stats = document.querySelector('.top-stats');
+    const zipcode_ele = await textEleSearch(/[0-9]{5}/,top_stats);
+    return zipcode_ele.parentElement.innerText;
+  }
+  
+})();
 
 function save(o){
   
@@ -79,4 +137,12 @@ function save(o){
 
   // xhr.send(data);
   
+}
+
+function updateToAddresses(){
+  let to_addr_str = prompt( "Enter JSON array of addresses" );
+  console.log({new_val:to_addr_str});
+  GM_setValue(addr_key,to_addr_str);
+  console.log('set values')
+  return to_addr_str
 }
