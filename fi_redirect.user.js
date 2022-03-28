@@ -5,7 +5,7 @@
 // @grant       window.close
 // @grant       GM_getValue
 // @grant       GM_setValue
-// @version     0.1
+// @version     0.2
 // @author      yeltnar
 // @description 1/7/2022, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
@@ -26,8 +26,10 @@
       console.log('clicking on email');
       const fi_email = getFiEmail();
       console.log({fi_email});
-      const email_ele = await textEleSearch(fi_email);
+      const email_ele = await waitOnElement(fi_email);
+      await timeoutPromise(500);
       console.log({fi_email,email_ele});
+      
       email_ele.click();
     }
   }
