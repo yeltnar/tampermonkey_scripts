@@ -7,6 +7,10 @@ const expressFirebase = (()=>{
     const deviceId = "group.android";
     const title = document.title;
 
+    return await sendToJoin({url, title, deviceId});
+  }
+
+  function sendToJoin({url, title, deviceId}){
     let req_url = `https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush?url=${url}&title=${title}&deviceId=${deviceId}&apikey=${apikey}`;
     console.log({ req_url });
     const reply = await GM_xmlHttpRequestPromise(req_url);
@@ -23,6 +27,6 @@ const expressFirebase = (()=>{
     return apikey;
   }
 
-  return {sendToPhone};
+  return {sendToPhone, sendToJoin};
   
 })();
