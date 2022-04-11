@@ -2,7 +2,6 @@ const expressFirebase = (()=>{
 
   async function sendToPhone(url) {
 
-    const apikey = getJoinApiKey();
 
     const deviceId = "group.android";
     const title = document.title;
@@ -11,6 +10,7 @@ const expressFirebase = (()=>{
   }
 
   async function sendToJoin({url, title="default title", deviceId="group.android"}){
+    const apikey = getJoinApiKey();
     let req_url = `https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush?url=${url}&title=${title}&deviceId=${deviceId}&apikey=${apikey}`;
     console.log({ req_url });
     const reply = await GM_xmlHttpRequestPromise(req_url);
