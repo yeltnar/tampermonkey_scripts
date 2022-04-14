@@ -11,12 +11,14 @@
 // @match       https://www.wolframalpha.com/*
 // @match       https://emojipedia.org/search/*
 // @match       https://yeltnar.github.io/soapnote/*
+// @match       https://mail.google.com/mail/*
+// @match       https://www.google.com/maps/*
 // @grant       window.close
 // @grant       GM_openInTab
 // @grant       GM_addValueChangeListener
 // @grant       GM_removeValueChangeListener
 // @grant       GM_setValue
-// @version     0.37
+// @version     0.38
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
