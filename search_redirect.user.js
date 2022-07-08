@@ -18,7 +18,7 @@
 // @grant       GM_addValueChangeListener
 // @grant       GM_removeValueChangeListener
 // @grant       GM_setValue
-// @version     0.38
+// @version     0.39
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
@@ -48,6 +48,10 @@ function main(query){
     {
       regex:/ ?chrome ?store ?/,
       url:`https://chrome.google.com/webstore/category/extensions`
+    },
+    {
+      regex:/fastm/,
+      url:`https://www.fastmail.com/`
     },
     {
       regex:/^(wolfram ?alpha|wa) (.*)/,
@@ -140,6 +144,10 @@ function main(query){
     {
       regex:/^(fastmail) (.*)/,
       funct:fastmailRedirect
+    }, 
+    {
+      regex:/^(work) (.*)/,
+      funct:workContainerRedirect
     }, 
     {
       regex:/()(.*)/,
@@ -418,6 +426,18 @@ function fastmailRedirect(regex){
     movePage(`https://www.fastmail.com/mail/search:${encodeURIComponent(s)}/?u=8c994007`);
     // movePage(`https://mail.google.com/mail/u/0/?pli=1#search/${encodeURIComponent(s)}`);    
   }
+}
+function workContainerRedirect(regex){
+  const q=getQuery(window.location.href);
+  let link=regex.exec(q)[2];
+  console.log(`loading ${link} with workContainerRedirect`);  
+
+  link = encodeURIComponent(link);
+  link = `https://cloud.ibm.com/?r=${link}`
+  
+  console.log({link})
+
+  // movePage(link)
 }
 
 function defaultResult(){
