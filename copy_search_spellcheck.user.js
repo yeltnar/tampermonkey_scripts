@@ -1,12 +1,14 @@
 // ==UserScript==
 // @name         search engine spell checker
 // @namespace    http://tampermonkey.net/
-// @version      1.2
+// @version      1.3
 // @description  copy search engine text recommendation
 // @author       You
 // @match        https://www.google.com/search*
 // @match        https://www.startpage.com/*search*
+// @match        https://www.startpage.com/sp/search
 // @grant        GM_setClipboard
+// @grant        GM_registerMenuCommand
 // @grant        window.close
 // ==/UserScript==
 
@@ -61,17 +63,34 @@ function matchDesiredKeys( key_event_list ){
     }catch(e){}
 
     console.log("search engine spell checker event added");
+  
+  
+    GM_registerMenuCommand("copySuggestion",copySuggestion);
 
 })();
 
 function copySuggestion(){
   if( window.location.href.includes('google') ){
-      let txt = recursiveBodyFind("Did you mean:").parentElement.querySelector("a").innerText;
+      let ele = recursiveBodyFind("Did you mean:");
+      let txt;  
+      if(ele===undefined||ele===-1||ele==="-1"){
+        txt = new URLSearchParams(window.location.search).get("q");        
+      }else{
+        txt = ele.parentElement.querySelector("a").innerText;
+      }
+      console.log({txt});
       GM_setClipboard( txt );
       window.close();
   }
   if( window.location.href.includes('startpage') ){
-      let txt = recursiveBodyFind("Did you mean:").parentElement.querySelector("button").innerText;
+      let ele = recursiveBodyFind("Did you mean:");
+      let txt;
+      if(ele===undefined||ele===-1||ele==="-1"){
+        txt = document.querySelector('.dt-qi__word').innerText;
+      }else{
+        txt = ele.parentElement.querySelector("button").innerText;  
+      }
+      console.log({txt});
       GM_setClipboard( txt );
       window.close();
   }
