@@ -2,7 +2,6 @@
 // @name        informed delivery redirect
 // @namespace   andbrant
 // @match       https://informeddelivery.usps.com/box/pages/secure/packageDashboardAction?selectedTrckNum.*
-// @match       https://*/*
 // @grant       GM_openInTab
 // @run-at      document-start // document-idle
 // @version     0.1
