@@ -19,8 +19,7 @@ const joinApi = (()=>{
     const headers={
       'Content-Type':'application/json',
     }
-    req_url += text!==undefined ? `&text=${text}` : "";
-    req_url += url!==undefined ? `&url=${url}` : "";
+    
     console.log({ req_url });
     const reply = await GM_xmlHttpRequestPromise(req_url, 'POST', JSON.stringify(data), JSON.stringify(headers));
     console.log("called send to join");

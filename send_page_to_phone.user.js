@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         send page to phone
 // @namespace    http://tampermonkey.net/
-// @version      0.2.23
+// @version      0.2.24
 // @description  send page to phone
 // @author       You
 // @match        http://*/*
@@ -42,7 +42,6 @@ delete joinApi;
     async function sendThisPageToPhone(){
         let url = window.location.href;
         url = fixForYoutube(url);
-        url = encodeURIComponent(url);
         const r = await sendToPhone(url);
         console.log({send_reply:r});
         toast("Sent to phone", 1500, { backgroundColor: "pink" });
