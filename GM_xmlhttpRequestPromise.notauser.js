@@ -1,6 +1,6 @@
-function GM_xmlHttpRequestPromise(url, method = "GET") {
+function GM_xmlHttpRequestPromise(url, method = "GET", data=null, headers=null) {
   return new Promise((resolve,reject)=>{
-    GM_xmlhttpRequest({
+    const obj = {
       method,
       url,
       onload: function (response) {
@@ -9,6 +9,18 @@ function GM_xmlHttpRequestPromise(url, method = "GET") {
       onerror: function(err){
         reject(err);
       }
-    });
+    };
+
+    if(data!==null){
+      obj.data = data;
+    }
+
+    if(headers!==null){
+      obj.headers = headers;
+    }
+
+    console.log({req_obj:obj});
+
+    GM_xmlhttpRequest(obj);
   });
 }
