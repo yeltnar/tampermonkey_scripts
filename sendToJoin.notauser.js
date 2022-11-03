@@ -10,7 +10,7 @@ const joinApi = (()=>{
 
   async function sendToJoin({url, title="default title", deviceId="group.android", text}){
     const apikey = getJoinApiKey();
-    let req_url = `https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush?apikey=${apikey}&deviceId=${deviceId}&title=${title}`
+    let req_url = `https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush?apikey=${apikey}&deviceId=${deviceId}`
     const data = {
       title,
       text,
