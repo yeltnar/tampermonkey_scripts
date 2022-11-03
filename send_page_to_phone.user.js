@@ -1,24 +1,23 @@
 // ==UserScript==
 // @name         send page to phone
 // @namespace    http://tampermonkey.net/
-// @version      0.2.22
+// @version      0.2.23
 // @description  send page to phone
 // @author       You
 // @match        http://*/*
 // @match        https://*/*
-// @match        chrome-extension://*/*
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        GM_registerMenuCommand
 // @grant        GM_xmlhttpRequest
 // @require      https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/toast.notauser.js
 // @require      https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/GM_xmlhttpRequestPromise.notauser.js
-// @require      https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/expressFirebase.notauser.js
+// @require      https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/sendToJoin.notauser.js
 // ==/UserScript==
 
 let last_key="";
-const {sendToPhone} = expressFirebase;
-delete expressFirebase;
+const {sendToPhone} = joinApi;
+delete joinApi;
 
 (()=>{
     'use strict';
