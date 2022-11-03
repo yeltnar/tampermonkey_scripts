@@ -7,12 +7,22 @@
 // @match       https://yeltnar.github.io/search/
 // @match       https://www.google.com/search
 // @match       https://duckduckgo.com/?*
+// @match       https://www.youtube.com/*
+// @match       https://www.wolframalpha.com/*
+// @match       https://emojipedia.org/search/*
+// @match       https://yeltnar.github.io/soapnote/*
+// @match       https://mail.google.com/mail/*
+// @match       https://www.google.com/maps/*
 // @grant       window.close
 // @grant       GM_openInTab
-// @version     0.36
+// @grant       GM_addValueChangeListener
+// @grant       GM_removeValueChangeListener
+// @grant       GM_setValue
+// @version     0.39
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
+// @require     https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/textEleSearch.notauser.js
 // @run-at document-start
 // ==/UserScript==
 
@@ -38,6 +48,10 @@ function main(query){
     {
       regex:/ ?chrome ?store ?/,
       url:`https://chrome.google.com/webstore/category/extensions`
+    },
+    {
+      regex:/fastm/,
+      url:`https://www.fastmail.com/`
     },
     {
       regex:/^(wolfram ?alpha|wa) (.*)/,
@@ -132,6 +146,10 @@ function main(query){
       funct:fastmailRedirect
     }, 
     {
+      regex:/^(work) (.*)/,
+      funct:workContainerRedirect
+    }, 
+    {
       regex:/()(.*)/,
       funct:defaultResult
     }, 
@@ -156,7 +174,34 @@ function main(query){
 
 }
 
-(()=>{
+(async()=>{
+  
+  // code for closing calling tab
+  (()=>{
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+      get: (searchParams, prop) => searchParams.get(prop),
+    });
+    // Get the value of "some_key" in eg "https://example.com/?some_key=some_value"
+    const tab_event_id = params.tab_event_id;
+    if( tab_event_id !== null ){
+
+
+      // remove tab_event_id from the URL
+      const params = new URLSearchParams(window.location.search)
+      params.delete('tab_event_id')
+      const new_search = params.toString();
+      if( window.location.search !== new_search ){
+        window.location.search = new_search;
+      }
+
+      // let the previous tab know it can close
+      window.addEventListener('DOMContentLoaded',async()=>{
+        // alert(`loaded '${tab_event_id}'`);
+        GM_setValue(tab_event_id,"DOMContentLoaded");
+      }); 
+    }
+  })();
+
   const query = getQuery();
   console.log(`query is ${query}`);
   
@@ -189,19 +234,46 @@ async function movePage(new_url){
     window.location.href=new_url;
   }else{
     // GM_openInTab(new_url,{insert:true});
+
+    const pg_obj = createPageLoadedListener(new_url);
+    
+    new_url = pg_obj.new_url;
+
     const x = GM_openInTab(new_url,{active:true,insert:true});
     await timeoutPromise(2000);
     closeOldUrl(new_url);
   }
 }
 
+function createPageLoadedListener(url){
+  const tab_event_id = parseInt(Math.random()*Math.pow(10,16))+"";
+  GM_addValueChangeListener(tab_event_id, (name, oldVal, newVal, remote)=>{
+    console.log(`${tab_event_id} value changed ${oldVal} ${newVal} ${remote}`);
+    window.close();
+    GM_removeValueChangeListener(change_id);
+    
+  });
+
+  const spacer = url.includes("?") ? "&" : "?";
+
+  const new_url_0 = url+spacer+"tab_event_id="+tab_event_id;
+  
+  let new_url = url.split("#");
+  new_url[0] = new_url[0]+spacer+"tab_event_id="+tab_event_id;
+  new_url = new_url.join("#");
+  // alert(JSON.stringify({new_url_0,a:new_url_0.join("#")}));
+  // new_url_0 = new_url_0.join("#");
+
+  return {tab_event_id, new_url};
+}
+
 function closeOldUrl(new_url){
   const interval = setInterval(()=>{
-      if(new_url!==window.location.href){
-        clearInterval(interval);
-        window.close();
-      }
-    },100); 
+    if(new_url!==window.location.href){
+      clearInterval(interval);
+      window.close();
+    }
+  },100); 
 }
 
 function googleRedirect(regex){
@@ -355,6 +427,18 @@ function fastmailRedirect(regex){
     // movePage(`https://mail.google.com/mail/u/0/?pli=1#search/${encodeURIComponent(s)}`);    
   }
 }
+function workContainerRedirect(regex){
+  const q=getQuery(window.location.href);
+  let link=regex.exec(q)[2];
+  console.log(`loading ${link} with workContainerRedirect`);  
+
+  link = encodeURIComponent(link);
+  link = `https://cloud.ibm.com/?r=${link}`
+  
+  console.log({link})
+
+  // movePage(link)
+}
 
 function defaultResult(){
   // alert('default')
@@ -366,9 +450,6 @@ function defaultResult(){
     movePage(`https://www.startpage.com/do/dsearch?query=${q}`);
   }
 }
-
-
-
 
 
 
