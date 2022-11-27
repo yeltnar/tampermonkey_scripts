@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         send page to phone
 // @namespace    http://tampermonkey.net/
-// @version      0.2.24
+// @version      0.3.0
 // @description  send page to phone
 // @author       You
 // @match        http://*/*
@@ -12,12 +12,12 @@
 // @grant        GM_xmlhttpRequest
 // @require      https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/toast.notauser.js
 // @require      https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/GM_xmlhttpRequestPromise.notauser.js
-// @require      https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/sendToJoin.notauser.js
+// @require      https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/sendToNtfy.notauser.js
 // ==/UserScript==
 
 let last_key="";
-const {sendToPhone} = joinApi;
-delete joinApi;
+const {sendToPhone} = ntfyApi;
+delete ntfyApi;
 
 (()=>{
     'use strict';
