@@ -17,11 +17,12 @@ const ntfyApi = (()=>{
         topic:ntfy_topic,
         message,
         click: url,
+        priority: 5,
         actions:[
           {
             action: 'view',
             label: 'Open',
-            url: url
+            url: url,
           }
         ]
       };
