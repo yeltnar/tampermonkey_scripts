@@ -33,8 +33,8 @@ const ntfyApi = (()=>{
   
       console.log(data)
   
-      console.log({ req_url });
-      // const reply = await GM_xmlHttpRequestPromise(req_url, 'POST', JSON.stringify(data), JSON.stringify(headers));
+      console.log({ ntfy_url });
+      // const reply = await GM_xmlHttpRequestPromise(ntfy_url, 'POST', JSON.stringify(data), JSON.stringify(headers));
       const reply = await GM_xmlHttpRequestPromise(ntfy_url, 'POST', JSON.stringify(data));
       console.log("called send to ntfy");
       return reply;
