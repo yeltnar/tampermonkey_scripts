@@ -15,16 +15,20 @@ const ntfyApi = (()=>{
         topic:ntfy_topic,
         message,
         title,
-        click: url,
         priority: 5,
         actions:[
-          {
-            action: 'view',
-            label: 'Open',
-            url: url,
-          }
+          
         ]
       };
+
+      if(url!==undefined){
+        data.click=url;
+        data.actions.push({
+          action: 'view',
+          label: 'Open',
+          url: url,
+        });
+      }
   
       const headers=null;
       // const headers = {
