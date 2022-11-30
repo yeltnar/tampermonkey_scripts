@@ -8,11 +8,9 @@ const ntfyApi = (()=>{
       return await sendToNtfy({url, title, deviceId});
     }
   
-    async function sendToNtfy({url, title="default title", deviceId="group.android", text}){
+    async function sendToNtfy({url, title: message="default title", deviceId="group.android", text}){
       const ntfy_topic = getNtftyTopic();
       const ntfy_url = getNtfyUrl();
-      let req_url = `https://ntfy.sh`;
-      const message = title;
       const data = {
         topic:ntfy_topic,
         message,
@@ -36,7 +34,7 @@ const ntfyApi = (()=>{
   
       console.log({ req_url });
       // const reply = await GM_xmlHttpRequestPromise(req_url, 'POST', JSON.stringify(data), JSON.stringify(headers));
-      const reply = await GM_xmlHttpRequestPromise(req_url, 'POST', JSON.stringify(data));
+      const reply = await GM_xmlHttpRequestPromise(ntfy_url, 'POST', JSON.stringify(data));
       console.log("called send to join");
       return reply;
     }
