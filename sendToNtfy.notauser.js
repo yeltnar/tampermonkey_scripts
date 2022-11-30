@@ -8,14 +8,14 @@ const ntfyApi = (()=>{
       return await sendToNtfy({url, title, deviceId});
     }
   
-    async function sendToNtfy({url, title=`default title`, message="default message", deviceId="group.android", text}){
+    async function sendToNtfy({url, title=`default title`, message="default message", deviceId="group.android", priority=5}){
       const ntfy_topic = getNtftyTopic();
       const ntfy_url = getNtfyUrl();
       const data = {
         topic:ntfy_topic,
         message,
         title,
-        priority: 5,
+        priority,
         actions:[
           
         ]
