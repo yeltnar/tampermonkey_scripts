@@ -8,12 +8,13 @@ const ntfyApi = (()=>{
       return await sendToNtfy({url, title, deviceId});
     }
   
-    async function sendToNtfy({url, title: message="default title", deviceId="group.android", text}){
+    async function sendToNtfy({url, title=`default title`, message="default message", deviceId="group.android", text}){
       const ntfy_topic = getNtftyTopic();
       const ntfy_url = getNtfyUrl();
       const data = {
         topic:ntfy_topic,
         message,
+        title,
         click: url,
         priority: 5,
         actions:[
@@ -35,7 +36,7 @@ const ntfyApi = (()=>{
       console.log({ req_url });
       // const reply = await GM_xmlHttpRequestPromise(req_url, 'POST', JSON.stringify(data), JSON.stringify(headers));
       const reply = await GM_xmlHttpRequestPromise(ntfy_url, 'POST', JSON.stringify(data));
-      console.log("called send to join");
+      console.log("called send to ntfy");
       return reply;
     }
   
@@ -52,7 +53,7 @@ const ntfyApi = (()=>{
     function getGeneric(key_name){
       let key = GM_getValue(key_name);
       if (key === undefined || key === null) {
-          key = prompt(`enter join ${key_name} key`);
+          key = prompt(`enter ${key_name} value`);
           GM_setValue(key_name, key);
       }
       return key;
@@ -75,7 +76,7 @@ const ntfyApi = (()=>{
       console.log("send page to phone added")
   
       window.addEventListener("keyup",keyAction);
-      console.log("added send to join key listener");
+      console.log("added send to 'send' key listener");
       async function keyAction(e){
           last_key += e.key;
           if( e.key==="j" && e.altKey === true ){
