@@ -57,8 +57,9 @@ const ntfyApi = (()=>{
     function getGeneric({key_name,allow_random=false}){
       let value = GM_getValue(key_name);
       if (value === undefined || value === null) {
-          value = prompt(`enter ${key_name} value`);
-          value = allow_random===true ? `${value} or cancel for a random value` : value;
+          prompt_value = `enter ${key_name} value`
+          prompt_value = allow_random===true ? `${value} or cancel for a random value` : value;
+          value = prompt(prompt_value);
           if(allow_random===true && value===null){
             value = window.crypto.getRandomValues(new Uint32Array(100))[0].toString(16);
           }
