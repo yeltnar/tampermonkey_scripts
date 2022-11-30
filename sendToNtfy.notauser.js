@@ -9,7 +9,7 @@ const ntfyApi = (()=>{
     }
   
     async function sendToNtfy({url, title=`default title`, message="default message", deviceId="group.android", priority=5}){
-      const ntfy_topic = getNtftyTopic();
+      const ntfy_topic = getNtfyTopic();
       const ntfy_url = getNtfyUrl();
       const data = {
         topic:ntfy_topic,
@@ -44,24 +44,31 @@ const ntfyApi = (()=>{
       return reply;
     }
   
-    function getNtftyTopic(){
+    function getNtfyTopic(){
       key_name='ntfy_topic'
-      return getGeneric(key_name)
+      return getGeneric({key_name,allow_random:true})
     }
   
     function getNtfyUrl(){
       key_name='ntfy_url'
-      return getGeneric(key_name)
+      return getGeneric({key_name})
     }
   
-    function getGeneric(key_name){
-      let key = GM_getValue(key_name);
-      if (key === undefined || key === null) {
-          key = prompt(`enter ${key_name} value`);
-          GM_setValue(key_name, key);
+    function getGeneric({key_name,allow_random=false}){
+      let value = GM_getValue(key_name);
+      if (value === undefined || value === null) {
+          value = prompt(`enter ${key_name} value`);
+          value = allow_random===true ? `${value} or cancel for a random value` : value;
+          if(allow_random===true && value===null){
+            value = window.crypto.getRandomValues(new Uint32Array(100))[0].toString(16);
+          }
+          GM_setValue(key_name, value);
+          if(allow_random===true && value===null){
+            alert(`random value is ${value}`)
+          }
       }
-      return key;
-  
+
+      return value;  
     }
   
     return {sendToPhone, sendToNtfy};
