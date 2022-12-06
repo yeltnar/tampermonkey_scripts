@@ -222,6 +222,9 @@ function getQuery(url=window.location.href){
     console.log("on yeltnarsearch page");
     return new URLSearchParams(window.location.search).get("q");
     // https://yeltnar.github.io/search/?yeltnarsearch&q=asdf
+  }else if(/yeltnar.github.io\/soapnote\/#(.*)/.test(url)){
+    to_return = decodeURIComponent(/yeltnar.github.io\/soapnote\/#(.*)/.exec(url)[1]);
+    return to_return;
   }else{
     console.log("unknown page "+url);
     return "";
