@@ -18,13 +18,16 @@
 // @grant       GM_addValueChangeListener
 // @grant       GM_removeValueChangeListener
 // @grant       GM_setValue
-// @version     0.39
+// @grant       GM_notification
+// @version     0.40
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
 // @require     https://raw.githubusercontent.com/yeltnar/tampermonkey_scripts/master/textEleSearch.notauser.js
 // @run-at document-start
 // ==/UserScript==
+
+let url_loaded="";
 
 function main(query){
   
@@ -160,6 +163,7 @@ function main(query){
   redirect_list.forEach((cur)=>{
     if(checkAction(cur.regex) && found_site!==true){
       if(cur.funct!==undefined){
+        found_site=true;
         cur.funct(cur.regex, );
       }else{
         found_site=true;
@@ -232,6 +236,14 @@ function getQuery(url=window.location.href){
 }
 
 async function movePage(new_url){
+
+  if(url_loaded!==""){
+    GM_notification({title:'loading page twice', text:`old: ${url_loaded}, new: ${new_url}`});
+    throw new Error('second move; turn back on closeOldUrl');
+  }
+
+  url_loaded=new_url;
+
   // window.location.href = new_url;
   if(GM_info.platform.os==="android"){ // don't have containers or auto open in new containers on mobile 
     window.location.href=new_url;
