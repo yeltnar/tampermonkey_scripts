@@ -19,7 +19,7 @@
 // @grant       GM_removeValueChangeListener
 // @grant       GM_setValue
 // @grant       GM_notification
-// @version     0.40
+// @version     0.41
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
@@ -30,7 +30,7 @@
 let url_loaded="";
 
 function main(query){
-  
+
   const redirect_list = [
     {
       regex:/ ?fi ?sms ?/,
@@ -143,23 +143,27 @@ function main(query){
     {
       regex:/^(gmail) (.*)/,
       funct:gmailRedirect
-    }, 
+    },
     {
       regex:/^(fastmail) (.*)/,
       funct:fastmailRedirect
-    }, 
+    },
     {
       regex:/^(work) (.*)/,
       funct:workContainerRedirect
-    }, 
+    },
+    {
+      regex:/^(ups) (.*)/,
+      funct:upsTrackRedirect
+    },
     {
       regex:/()(.*)/,
       funct:defaultResult
-    }, 
+    },
   ];
-  
+
   let found_site=false;
-  
+
   redirect_list.forEach((cur)=>{
     if(checkAction(cur.regex) && found_site!==true){
       if(cur.funct!==undefined){
@@ -179,7 +183,7 @@ function main(query){
 }
 
 (async()=>{
-  
+
   // code for closing calling tab
   (()=>{
     const params = new Proxy(new URLSearchParams(window.location.search), {
@@ -202,13 +206,13 @@ function main(query){
       window.addEventListener('DOMContentLoaded',async()=>{
         // alert(`loaded '${tab_event_id}'`);
         GM_setValue(tab_event_id,"DOMContentLoaded");
-      }); 
+      });
     }
   })();
 
   const query = getQuery();
   console.log(`query is ${query}`);
-  
+
   main(query);
 })();
 
@@ -245,13 +249,13 @@ async function movePage(new_url){
   url_loaded=new_url;
 
   // window.location.href = new_url;
-  if(GM_info.platform.os==="android"){ // don't have containers or auto open in new containers on mobile 
+  if(GM_info.platform.os==="android"){ // don't have containers or auto open in new containers on mobile
     window.location.href=new_url;
   }else{
     // GM_openInTab(new_url,{insert:true});
 
     const pg_obj = createPageLoadedListener(new_url);
-    
+
     new_url = pg_obj.new_url;
 
     const x = GM_openInTab(new_url,{active:true,insert:true});
@@ -266,13 +270,13 @@ function createPageLoadedListener(url){
     console.log(`${tab_event_id} value changed ${oldVal} ${newVal} ${remote}`);
     window.close();
     GM_removeValueChangeListener(change_id);
-    
+
   });
 
   const spacer = url.includes("?") ? "&" : "?";
 
   const new_url_0 = url+spacer+"tab_event_id="+tab_event_id;
-  
+
   let new_url = url.split("#");
   new_url[0] = new_url[0]+spacer+"tab_event_id="+tab_event_id;
   new_url = new_url.join("#");
@@ -288,7 +292,7 @@ function closeOldUrl(new_url){
       clearInterval(interval);
       window.close();
     }
-  },100); 
+  },100);
 }
 
 function googleRedirect(regex){
@@ -337,14 +341,14 @@ function amazonRedirect(regex){
 function githubRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
-  console.log(`loading ${s} with githubRedirect`);  
-  
+  console.log(`loading ${s} with githubRedirect`);
+
   if(s==="me searchredirect"){
     return movePage(`https://github.com/yeltnar/tampermonkey_scripts/blob/master/search_redirect.user.js`);
   }else if(s==="me"){
     return movePage(`https://github.com/yeltnar/`);
   }
-  
+
   return movePage(`https://github.com/`);
 }
 
@@ -368,7 +372,7 @@ function youtubeRedirect(regex){
   }else if( s==="wl" || s==="watchlater" ){
     movePage(`https://www.youtube.com/playlist?list=WL`);
   }else{
-    movePage(`https://www.youtube.com/results?search_query=${encodeURIComponent(s)}`);    
+    movePage(`https://www.youtube.com/results?search_query=${encodeURIComponent(s)}`);
   }
 }
 
@@ -396,63 +400,70 @@ function lazyReddit(regex){
 function youtubeDownload(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
-  console.log(`loading ${s} with alltubedownload`);  
+  console.log(`loading ${s} with alltubedownload`);
   movePage(`https://www.alltubedownload.net/info?url=${encodeURIComponent(s)}`);
 }
 
 function fdroidRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
-  console.log(`loading ${s} with fdroidRedirect`);  
+  console.log(`loading ${s} with fdroidRedirect`);
   movePage(`https://search.f-droid.org/?q=${encodeURIComponent(s)}&lang=en`);
 }
 
 function apkmirrorRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
-  console.log(`loading ${s} with apkmirrorRedirect`);  
+  console.log(`loading ${s} with apkmirrorRedirect`);
   movePage(`https://www.apkmirror.com/?searchtype=apk&s=${encodeURIComponent(s)}`);
 }
 function wikipediaRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
-  console.log(`loading ${s} with wikipediaRedirect`);  
+  console.log(`loading ${s} with wikipediaRedirect`);
   movePage(`https://en.wikipedia.org/?search=${encodeURIComponent(s)}`)
 }
 function gmailRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
-  // 
+  //
   console.log(`loading ${s} with gmailRedirect`);
   if(s==="compose"){
     movePage(`https://mail.google.com/mail/u/0/?pli=1#inbox?compose=new`);
   }else{
-    movePage(`https://mail.google.com/mail/u/0/?pli=1#search/${encodeURIComponent(s)}`);    
+    movePage(`https://mail.google.com/mail/u/0/?pli=1#search/${encodeURIComponent(s)}`);
   }
 }
 function fastmailRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
-  // 
+  //
   console.log(`loading ${s} with fastmailRedirect`);
   if(s==="compose"){
     movePage(`https://mail.google.com/mail/u/0/?pli=1#inbox?compose=new`);
   }else{
     movePage(`https://www.fastmail.com/mail/search:${encodeURIComponent(s)}/?u=8c994007`);
-    // movePage(`https://mail.google.com/mail/u/0/?pli=1#search/${encodeURIComponent(s)}`);    
+    // movePage(`https://mail.google.com/mail/u/0/?pli=1#search/${encodeURIComponent(s)}`);
   }
 }
 function workContainerRedirect(regex){
   const q=getQuery(window.location.href);
   let link=regex.exec(q)[2];
-  console.log(`loading ${link} with workContainerRedirect`);  
+  console.log(`loading ${link} with workContainerRedirect`);
 
   link = encodeURIComponent(link);
   link = `https://cloud.ibm.com/?r=${link}`
-  
+
   console.log({link})
 
   // movePage(link)
+}
+
+function upsTrackRedirect(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[2];
+  //
+  movePage(`https://www.ups.com/track?tracknum=${s}`);
 }
 
 function defaultResult(){
