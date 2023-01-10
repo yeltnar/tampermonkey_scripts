@@ -19,7 +19,7 @@
 // @grant       GM_removeValueChangeListener
 // @grant       GM_setValue
 // @grant       GM_notification
-// @version     0.41
+// @version     0.42
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
@@ -155,6 +155,10 @@ function main(query){
     {
       regex:/^(ups) (.*)/,
       funct:upsTrackRedirect
+    },
+    {
+      regex:/^(fedex) (.*)/,
+      funct:fedexTrackRedirect
     },
     {
       regex:/()(.*)/,
@@ -464,6 +468,13 @@ function upsTrackRedirect(regex){
   const s=regex.exec(q)[2];
   //
   movePage(`https://www.ups.com/track?tracknum=${s}`);
+}
+
+function fedexTrackRedirect(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[2];
+
+  movePage(`https://www.fedex.com/fedextrack/?trknbr=${s}`);
 }
 
 function defaultResult(){
