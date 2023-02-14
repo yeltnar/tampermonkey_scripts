@@ -19,7 +19,7 @@
 // @grant       GM_removeValueChangeListener
 // @grant       GM_setValue
 // @grant       GM_notification
-// @version     0.44
+// @version     0.45
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
@@ -172,7 +172,7 @@ function main(query){
   redirect_list.forEach((cur)=>{
     if(checkAction(cur.regex) && found_site!==true){
       console.log(cur);
-      console.log('found site... moving - ');
+      console.log('found site... moving');
       if(cur.funct!==undefined){
         found_site=true;
         cur.funct(cur.regex, );
@@ -190,6 +190,17 @@ function main(query){
 }
 
 (async()=>{
+
+  // don't run the script both for the browser and user script 
+  if(document.querySelector('meta[search_redirect="true"]') !== null){
+    console.log('aborting second time');
+    console.log(document.querySelector('meta[search_redirect="true"]'))
+    return;
+  }
+
+  const metatag = document.createElement('meta');
+  metatag.setAttribute('search_redirect',true);
+  document.querySelector('head').appendChild(metatag);
 
   // code for closing calling tab
   (()=>{
