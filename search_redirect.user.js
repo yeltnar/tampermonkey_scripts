@@ -19,7 +19,7 @@
 // @grant       GM_removeValueChangeListener
 // @grant       GM_setValue
 // @grant       GM_notification
-// @version     0.42
+// @version     0.44
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
@@ -162,14 +162,17 @@ function main(query){
     },
     {
       regex:/()(.*)/,
-      funct:defaultResult
-    },
+      funct:defaultResult,
+      default: true
+    }, 
   ];
 
   let found_site=false;
 
   redirect_list.forEach((cur)=>{
     if(checkAction(cur.regex) && found_site!==true){
+      console.log(cur);
+      console.log('found site... moving - ');
       if(cur.funct!==undefined){
         found_site=true;
         cur.funct(cur.regex, );
@@ -233,7 +236,9 @@ function getQuery(url=window.location.href){
   }else if(/yeltnarsearch/.test(url)){
     console.log("on yeltnarsearch page");
     return new URLSearchParams(window.location.search).get("q");
-    // https://yeltnar.github.io/search/?yeltnarsearch&q=asdf
+  }else if(/localhost/.test(url)){ // TODO remove
+    console.log("on yeltnarsearch localhost page");
+    return new URLSearchParams(window.location.search).get("q");
   }else if(/yeltnar.github.io\/soapnote\/#(.*)/.test(url)){
     to_return = decodeURIComponent(/yeltnar.github.io\/soapnote\/#(.*)/.exec(url)[1]);
     return to_return;
@@ -253,7 +258,9 @@ async function movePage(new_url){
   url_loaded=new_url;
 
   // window.location.href = new_url;
-  if(GM_info.platform.os==="android"){ // don't have containers or auto open in new containers on mobile
+  if(GM_info.platform.os==="android"){ // don't have containers or auto open in new containers on mobile 
+    window.location.href=new_url;
+  }else if(GM_info.platform.os==="notgm"){ // work around for simple web page
     window.location.href=new_url;
   }else{
     // GM_openInTab(new_url,{insert:true});
@@ -479,7 +486,7 @@ function fedexTrackRedirect(regex){
 
 function defaultResult(){
   // alert('default')
-  if( /yeltnarsearch/.test(window.location.href) ){
+  if( /yeltnarsearch/.test(window.location.href) || /localhost/.test(window.location.href) ){
     console.log(1)
     const q=getQuery();
     console.log(2,q)
