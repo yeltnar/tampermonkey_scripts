@@ -491,7 +491,11 @@ function defaultResult(){
     const q=getQuery();
     console.log(2,q)
     console.log(3)
-    movePage(`https://www.startpage.com/do/dsearch?query=${q}`);
+    if(q===null){
+      alert('q is null');
+    }else{
+      movePage(`https://www.startpage.com/do/dsearch?query=${q}`);
+    }
   }
 }
 
