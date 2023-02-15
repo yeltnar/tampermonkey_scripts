@@ -19,7 +19,7 @@
 // @grant       GM_removeValueChangeListener
 // @grant       GM_setValue
 // @grant       GM_notification
-// @version     0.45
+// @version     0.46
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
@@ -189,18 +189,23 @@ function main(query){
 
 }
 
+// don't check for duplicate redirect on these sites 
+function isRedirectCheck(){
+  return window.location.href.includes('localhost') || window.location.href.includes('yeltnarsearch');
+}
+
 (async()=>{
 
-  // don't run the script both for the browser and user script 
-  if(document.querySelector('meta[search_redirect="true"]') !== null){
-    console.log('aborting second time');
-    console.log(document.querySelector('meta[search_redirect="true"]'))
-    return;
+  if( isRedirectCheck() ){
+      // don't run the script both for the browser and user script 
+      // window.location.href=window.location.href+"#redirectdone"
+      if( window.location.href.includes('redirectdone') ){
+        console.log('aborting second time');
+        console.log(window.location.href);
+        return;
+      }    
+      window.location.href = window.location.href+"#redirectdone";
   }
-
-  const metatag = document.createElement('meta');
-  metatag.setAttribute('search_redirect',true);
-  document.querySelector('head').appendChild(metatag);
 
   // code for closing calling tab
   (()=>{
