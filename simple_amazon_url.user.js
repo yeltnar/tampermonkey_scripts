@@ -3,7 +3,7 @@
 // @namespace   andbrant
 // @match       https://www.amazon.com/*
 // @grant       GM_registerMenuCommand
-// @version     0.6
+// @version     0.7
 // @author      github/yeltnar
 // @dont-require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
 // @dont-require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/textEleSearch.notauser.js
@@ -22,6 +22,13 @@ function simpleAmazonURL(){
 
   // don't redirect shops
   if( window.location.href.includes('amazon.com/shop') ){
+    console.log('breaking for amazon.com/shop');
+    return
+  }else if( window.location.href.includes('amazon.com/store') ){
+    console.log('breaking for amazon.com/store');
+    return
+  }else if( window.location.href.includes('/b/') ){
+    console.log('breaking for /b/');
     return
   }
 
