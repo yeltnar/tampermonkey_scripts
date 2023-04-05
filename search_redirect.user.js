@@ -19,7 +19,7 @@
 // @grant       GM_removeValueChangeListener
 // @grant       GM_setValue
 // @grant       GM_notification
-// @version     0.47
+// @version     0.48
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
@@ -153,6 +153,10 @@ function main(query){
       funct:workContainerRedirect
     },
     {
+      regex:/^(usps) (.*)/,
+      funct:uspsTrackRedirect
+    },
+    {
       regex:/^(ups) (.*)/,
       funct:upsTrackRedirect
     },
@@ -164,7 +168,7 @@ function main(query){
       regex:/()(.*)/,
       funct:defaultResult,
       default: true
-    }, 
+    },
   ];
 
   let found_site=false;
@@ -189,7 +193,7 @@ function main(query){
 
 }
 
-// don't check for duplicate redirect on these sites 
+// don't check for duplicate redirect on these sites
 function isRedirectCheck(){
   return window.location.href.includes('localhost') || window.location.href.includes('yeltnarsearch');
 }
@@ -197,13 +201,13 @@ function isRedirectCheck(){
 (async()=>{
 
   if( isRedirectCheck() ){
-      // don't run the script both for the browser and user script 
+      // don't run the script both for the browser and user script
       // window.location.href=window.location.href+"#redirectdone"
       if( window.location.href.includes('redirectdone') ){
         console.log('aborting second time');
         console.log(window.location.href);
         return;
-      }    
+      }
       window.location.href = window.location.href+"#redirectdone";
   }
 
@@ -274,7 +278,7 @@ async function movePage(new_url){
   url_loaded=new_url;
 
   // window.location.href = new_url;
-  if(GM_info.platform.os==="android"){ // don't have containers or auto open in new containers on mobile 
+  if(GM_info.platform.os==="android"){ // don't have containers or auto open in new containers on mobile
     window.location.href=new_url;
   }else if(GM_info.platform.os==="notgm"){ // work around for simple web page
     window.location.href=new_url;
@@ -493,6 +497,13 @@ function upsTrackRedirect(regex){
   movePage(`https://www.ups.com/track?tracknum=${s}`);
 }
 
+function uspsTrackRedirect(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[2];
+  //
+  movePage(`https://tools.usps.com/go/TrackConfirmAction!input.action?tLabels=${s}`);
+}
+
 function fedexTrackRedirect(regex){
   const q=getQuery(window.location.href);
   const s=regex.exec(q)[2];
@@ -514,6 +525,3 @@ function defaultResult(){
     }
   }
 }
-
-
-
