@@ -19,7 +19,7 @@
 // @grant       GM_removeValueChangeListener
 // @grant       GM_setValue
 // @grant       GM_notification
-// @version     0.48
+// @version     0.49
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
@@ -163,6 +163,10 @@ function main(query){
     {
       regex:/^(fedex) (.*)/,
       funct:fedexTrackRedirect
+    },
+    {
+      regex:/^(ace) (.*)/,
+      funct:aceHardwareRedirect
     },
     {
       regex:/()(.*)/,
@@ -511,6 +515,13 @@ function fedexTrackRedirect(regex){
   movePage(`https://www.fedex.com/fedextrack/?trknbr=${s}`);
 }
 
+function aceHardwareRedirect(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[2];
+
+  movePage(`https://www.acehardware.com/search?query=${s}`);
+}
+
 function defaultResult(){
   // alert('default')
   if( /yeltnarsearch/.test(window.location.href) || /localhost/.test(window.location.href) ){
@@ -525,3 +536,4 @@ function defaultResult(){
     }
   }
 }
+
