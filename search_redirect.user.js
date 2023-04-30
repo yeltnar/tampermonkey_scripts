@@ -166,7 +166,9 @@ function main(query){
     },
     {
       regex:/^(ace) (.*)/,
-      funct:aceHardwareRedirect
+      generic: true,
+      regex_res_index:2,
+      base_str:"https://www.acehardware.com/search?query="
     },
     {
       regex:/()(.*)/,
@@ -184,6 +186,8 @@ function main(query){
       if(cur.funct!==undefined){
         found_site=true;
         cur.funct(cur.regex, );
+      }else if(cur.generic===true){
+        genericRedirect(cur.regex, cur.regex_res_index, cur.base_str);
       }else{
         found_site=true;
         movePage(cur.url)
@@ -520,6 +524,13 @@ function aceHardwareRedirect(regex){
   const s=regex.exec(q)[2];
 
   movePage(`https://www.acehardware.com/search?query=${s}`);
+}
+
+function genericRedirect(regex, regex_res_index, base_str){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[regex_res_index];
+
+  movePage(`${base_str}${s}`);
 }
 
 function defaultResult(){
