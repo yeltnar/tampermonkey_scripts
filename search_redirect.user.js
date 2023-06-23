@@ -171,6 +171,18 @@ function main(query){
       base_str:"https://www.acehardware.com/search?query="
     },
     {
+      regex:/^(person)/,
+      generic: true,
+      regex_res_index:2,
+      base_str:"https://thispersondoesnotexist.com/?noop="
+    },
+    {
+      regex:/^(homedepot) (.*)/,
+      generic: true,
+      regex_res_index:2,
+      base_str:"https://www.homedepot.com/s/"
+    },
+    {
       regex:/()(.*)/,
       funct:defaultResult,
       default: true
@@ -187,6 +199,7 @@ function main(query){
         found_site=true;
         cur.funct(cur.regex, );
       }else if(cur.generic===true){
+        found_site=true;
         genericRedirect(cur.regex, cur.regex_res_index, cur.base_str);
       }else{
         found_site=true;
@@ -196,6 +209,7 @@ function main(query){
   });
 
   function checkAction(regex){
+
     return regex.test(query);
   }
 
