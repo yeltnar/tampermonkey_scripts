@@ -19,7 +19,7 @@
 // @grant       GM_removeValueChangeListener
 // @grant       GM_setValue
 // @grant       GM_notification
-// @version     0.54
+// @version     0.55
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
@@ -153,19 +153,19 @@ function main(query){
       funct:workContainerRedirect
     },
     {
-      regex:/^(usps) (.*)/,
+      regex:/^(usps) (.*)/i,
       funct:uspsTrackRedirect
     },
     {
-      regex:/^(ups) (.*)/,
+      regex:/^(ups) (.*)/i,
       funct:upsTrackRedirect
     },
     {
-      regex:/^(fedex) (.*)/,
+      regex:/^(fedex) (.*)/i,
       funct:fedexTrackRedirect
     },
     {
-      regex:/^(ace) (.*)/,
+      regex:/^(ace) (.*)/i,
       generic: true,
       regex_res_index:2,
       base_str:"https://www.acehardware.com/search?query="
