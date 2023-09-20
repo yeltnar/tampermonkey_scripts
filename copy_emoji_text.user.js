@@ -1,54 +1,65 @@
 // ==UserScript==
 // @name         copy emoji text
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  try to take over the world!
 // @author       You
 // @match        https://emojipedia.org/search/?q=*
+// @match        https://emojipedia.org/search?q=*
 // @grant        GM_setClipboard
 // @grant        window.close
 // ==/UserScript==
 
-(function() {
+(async function() {
     'use strict';
 
-    let arr = document.querySelector(".search-results").querySelectorAll(".emoji");
+    // let arr  = document.querySelector(".search-results").querySelectorAll(".emoji");
+    let _arr = [...document.querySelector(".EmojisList_emojis-list-wrapper__gCk9j").querySelectorAll("span")];
+    let arr = _arr.map((cur)=>{
+        const name = cur.innerText;
+        const parent_txt = cur.parentElement.innerText;
+        const to_return = parent_txt.split(name).join("");
+        return {
+          emoji:[...to_return][0],
+          name
+        };
+    });
+
     let parentEleList = [];
 
     console.log("arr.length is "+arr.length);
     for( let i=0; i<arr.length; i++){
-        let ele = arr[i];
-        ele.addEventListener("click",(e)=>{
-            GM_setClipboard(e.srcElement.innerText);
+
+        let wrapper_ele = document.createElement('span');
+        wrapper_ele.addEventListener("click",(e)=>{
+            GM_setClipboard(arr[i].emoji);
             window.close();
             e.stopPropagation();
         });
-        let parentEle = ele.parentElement;
-        let grandparentEle = parentEle.parentElement;
-        ele.classList.add("drew");
+        wrapper_ele.id=getNumberId(i+1)
 
-        let newEleText = parentEle.innerText.split(ele.innerText).join("");
+        let number_ele = document.createElement('span');
+        number_ele.innerText = i+1;
+        wrapper_ele.appendChild(number_ele);
 
-        let newEle = document.createElement("a");
-        newEle.classList.add("drew");
-        newEle.innerText = newEleText;
+        wrapper_ele.appendChild(document.createElement('br'));
 
-        let number = document.createElement("span");
-        ele.id = getNumberId( i+1 );
-        number.innerText = i+1;
+        let emoji_ele = document.createElement('span');
+        // let emoji_ele = document.createTextNode(arr[i].emoji);
+        emoji_ele.innerText = arr[i].emoji;
+        emoji_ele.style.fontSize = "5rem";
+        wrapper_ele.appendChild(emoji_ele);
 
-        parentEle.innerHTML = "";
-        parentEle.appendChild(number);
-        parentEle.appendChild(ele);
-        parentEle.appendChild(newEle);
+        wrapper_ele.appendChild(document.createElement('br'));
 
-        parentEle.style.textDecoration = "none";
-        newEle.setAttribute("href", parentEle.getAttribute("href") );
-        parentEle.removeAttribute("href");
-        parentEleList.push(parentEle);
+        let test_ele = document.createElement('span');
+        test_ele.innerText = arr[i].name;
+        wrapper_ele.appendChild(test_ele);
+
+        parentEleList.push(wrapper_ele);
     }
 
-//    debugger;
+   // debugger;
     (()=>{
         let body = document.querySelector("body");
         body.style.width = "100%";
@@ -58,10 +69,10 @@
         for(let i=0; i<parentEleList.length; i++){
             parentEleList[i].style.fontSize = "2rem";
             parentEleList[i].style.width = "25rem";
-            parentEleList[i].style.height = "7rem";
+            // parentEleList[i].style.height = "7rem";
             parentEleList[i].style.margin = "1rem";
             parentEleList[i].style.backgroundColor = "rgba(133,133,133,.3)";
-            parentEleList[i].querySelector(".emoji").style.fontSize = "5rem";
+            // parentEleList[i].style.fontSize = "5rem";
             body.appendChild(parentEleList[i]);
         }
     })();
