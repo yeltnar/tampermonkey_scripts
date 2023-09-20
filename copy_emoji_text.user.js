@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         copy emoji text
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  try to take over the world!
 // @author       You
 // @match        https://emojipedia.org/search/?q=*
@@ -20,7 +20,7 @@
         const parent_txt = cur.parentElement.innerText;
         const to_return = parent_txt.split(name).join("");
         return {
-          emoji:[...to_return][0],
+          emoji:to_return.slice(0,-1),
           name
         };
     });
