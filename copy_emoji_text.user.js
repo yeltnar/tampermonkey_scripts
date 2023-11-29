@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         copy emoji text
 // @namespace    http://tampermonkey.net/
-// @version      0.4
+// @version      0.5
 // @description  try to take over the world!
 // @author       You
 // @match        https://emojipedia.org/search/?q=*
@@ -14,7 +14,7 @@
     'use strict';
 
     // let arr  = document.querySelector(".search-results").querySelectorAll(".emoji");
-    let _arr = [...document.querySelector(".EmojisList_emojis-list-wrapper__gCk9j").querySelectorAll("span")];
+    let _arr = [...document.querySelector(".EmojisList_emojis-list-wrapper__A8gKQ").querySelectorAll("span")];
     let arr = _arr.map((cur)=>{
         const name = cur.innerText;
         const parent_txt = cur.parentElement.innerText;
