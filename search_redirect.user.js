@@ -19,7 +19,7 @@
 // @grant       GM_removeValueChangeListener
 // @grant       GM_setValue
 // @grant       GM_notification
-// @version     0.59
+// @version     0.60
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
@@ -51,10 +51,6 @@ function main(query){
     {
       regex:/ ?chrome ?store ?/,
       url:`https://chrome.google.com/webstore/category/extensions`
-    },
-    {
-      regex:/fastm/,
-      url:`https://www.fastmail.com/`
     },
     {
       regex:/^(wolfram ?alpha|wa) (.*)/,
