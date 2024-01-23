@@ -105,8 +105,3 @@ let keyAction = (e)=>{
 
 window.addEventListener("keyup",keyAction);
 
-
-
-
-
-
