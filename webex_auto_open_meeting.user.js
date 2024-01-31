@@ -4,7 +4,7 @@
 // @match       https://ibm.webex.com/webappng/sites/ibm/meeting/home*
 // @grant       none
 // @run-at document-end // document-start // document-idle
-// @version     0.1
+// @version     0.2
 // @author      -
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/textEleSearch.notauser.js
@@ -76,14 +76,14 @@ async function getEventChildren(){
 
 	events_obj.forEach(( cur )=>{
 
-		setTimeout(()=>{
+		const timeout_id = setTimeout(()=>{
 			cur.element.querySelectorAll('button')[0].click();
       window.open(window.location.href,'_blank');
 			console.log('drew clicking '+cur.name)
-	console.log('clicking')
+	    console.log('clicking')
 		},cur.ms_delay-60*1000);
 
-		console.log('set timeout for '+cur.name)
+		console.log('drew - set timeout for '+cur.name+' id:'+timeout_id)
 
 	});
 
