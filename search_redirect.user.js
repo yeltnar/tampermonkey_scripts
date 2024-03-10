@@ -19,7 +19,7 @@
 // @grant       GM_removeValueChangeListener
 // @grant       GM_setValue
 // @grant       GM_notification
-// @version     0.60
+// @version     0.61
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
@@ -451,8 +451,10 @@ function youtubeRedirect(regex){
 
 function sopanoteRedirect(regex){
   const q=getQuery(window.location.href);
-  const s=regex.exec(q)[2];
-  movePage(`https://yeltnar.github.io/soapnote/#${encodeURIComponent(s)}`);
+  let s=regex.exec(q)[2];
+  s = encodeURIComponent(s);
+  s = s.split('%5Cn').join('%0A'); // replace \n chars with new line, but all encoded 
+  movePage(`https://yeltnar.github.io/soapnote/#${s}`);
 }
 
 function imbdRedirect(regex){
