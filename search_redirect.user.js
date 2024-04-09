@@ -19,7 +19,7 @@
 // @grant       GM_removeValueChangeListener
 // @grant       GM_setValue
 // @grant       GM_notification
-// @version     0.63
+// @version     0.64
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
@@ -159,6 +159,10 @@ function main(query){
     {
       regex:/^(fedex) (.*)/i,
       funct:fedexTrackRedirect
+    },
+    {
+      regex:/^(time-until|timeuntil|time until) ?(.*)/i,
+      funct:timeUntilRedirect
     },
     {
       regex:/^(ace) (.*)/i,
@@ -559,6 +563,19 @@ function fedexTrackRedirect(regex){
   const s=regex.exec(q)[2];
 
   movePage(`https://www.fedex.com/fedextrack/?trknbr=${s}`);
+}
+
+function timeUntilRedirect(regex){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[2];
+
+  let url  = `https://yeltnar.github.io/time-until/`;
+
+  if(s!==undefined&&s!==""){
+    url = `${url}?time=${s}`
+  }
+
+  movePage(url);
 }
 
 function aceHardwareRedirect(regex){
