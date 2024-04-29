@@ -19,7 +19,7 @@
 // @grant       GM_removeValueChangeListener
 // @grant       GM_setValue
 // @grant       GM_notification
-// @version     0.64
+// @version     0.65
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
@@ -190,9 +190,7 @@ function main(query){
     },
     {
       regex:/(.*\.lan)/,
-      generic: true,
-      regex_res_index:1,
-      base_str:'https://',
+      funct: lanRedirect,
     },
     {
       regex:/^(bestbuy) (.*)/,
@@ -576,6 +574,12 @@ function timeUntilRedirect(regex){
   }
 
   movePage(url);
+}
+
+function lanRedirect( regex ){
+  const q=getQuery(window.location.href);
+  const s=regex.exec(q)[2];
+  movePage(`${q}`);
 }
 
 function aceHardwareRedirect(regex){
