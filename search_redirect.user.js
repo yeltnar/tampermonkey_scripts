@@ -19,7 +19,7 @@
 // @grant       GM_removeValueChangeListener
 // @grant       GM_setValue
 // @grant       GM_notification
-// @version     0.65
+// @version     0.66
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
@@ -28,6 +28,16 @@
 // ==/UserScript==
 
 let url_loaded="";
+
+window.onload = ()=>{
+  // read content of search box for start page
+  const search_box = document.querySelector('#q');
+  if(search_box!==null ){
+    console.log('found start page search box');
+    const value = search_box.value;
+    main(value);
+  }
+}
 
 function main(query){
 
@@ -225,10 +235,10 @@ function main(query){
       console.log('found site... moving');
       if(cur.funct!==undefined){
         found_site=true;
-        cur.funct(cur.regex, );
+        cur.funct(cur.regex, cur.regex_res_index, cur.base_str, query);
       }else if(cur.generic===true){
         found_site=true;
-        genericRedirect(cur.regex, cur.regex_res_index, cur.base_str);
+        genericRedirect(cur.regex, cur.regex_res_index, cur.base_str, query);
       }else{
         found_site=true;
         movePage(cur.url)
@@ -236,7 +246,7 @@ function main(query){
     }
   });
 
-  function checkAction(regex){
+  function checkAction( regex ){
 
     return regex.test(query);
   }
@@ -248,7 +258,7 @@ function isRedirectCheck(){
   return window.location.href.includes('localhost') || window.location.href.includes('yeltnarsearch');
 }
 
-(async()=>{
+const start = async()=>{
 
   if( isRedirectCheck() ){
       // don't run the script both for the browser and user script
@@ -291,7 +301,9 @@ function isRedirectCheck(){
   console.log(`query is ${query}`);
 
   main(query);
-})();
+}
+
+start();
 
 function getQuery(url=window.location.href){
   if(/google.com/.test(url)){
@@ -376,51 +388,51 @@ function closeOldUrl(new_url){
   },100);
 }
 
-function googleRedirect(regex){
-  const q=getQuery(window.location.href);
+function googleRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
   movePage(`https://www.google.com/search?q=${encodeURIComponent(s)}`)
 }
 
-function duckduckgoRedirect(regex){
-  const q=getQuery(window.location.href);
+function duckduckgoRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
   movePage(`https://www.duckduckgo.com/?q=${encodeURIComponent(s)}`)
 }
 
-function startpageRedirect(regex){
-  const q=getQuery(window.location.href);
+function startpageRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
   movePage(`https://www.startpage.com/do/dsearch?query=${encodeURIComponent(s)}`);
 }
 
-function wolframAlpha(regex){
-  const q=getQuery(window.location.href);
+function wolframAlpha(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
   // alert(`${s} ${encodeURIComponent(s)}`);
   movePage(`https://www.wolframalpha.com/input/?i=${encodeURIComponent(s)}`)
 }
 
-function emojipediaRedirect(regex){
-  const q=getQuery(window.location.href);
+function emojipediaRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
   movePage(`https://emojipedia.org/search/?q=${encodeURIComponent(s)}`)
 }
 
-function mapsRedirect(regex){
-  const q=getQuery(window.location.href);
+function mapsRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
   movePage(`https://www.google.com/maps/search/${encodeURIComponent(s)}`)
 }
 
-function amazonRedirect(regex){
-  const q=getQuery(window.location.href);
+function amazonRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
   movePage(`https://www.amazon.com/s?k=${encodeURIComponent(s)}`)
 }
 
-function githubRedirect(regex){
-  const q=getQuery(window.location.href);
+function githubRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
   console.log(`loading ${s} with githubRedirect`);
 
@@ -433,20 +445,20 @@ function githubRedirect(regex){
   return movePage(`https://github.com/`);
 }
 
-function giphyRedirect(regex){
-  const q=getQuery(window.location.href);
+function giphyRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
   movePage(`https://giphy.com/search/${encodeURIComponent(s)}`);
 }
 
-function spotifyRedirect(regex){
-  const q=getQuery(window.location.href);
+function spotifyRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
   movePage(`https://open.spotify.com/search/${encodeURIComponent(s)}`)
 }
 
-function youtubeRedirect(regex){
-  const q=getQuery(window.location.href);
+function youtubeRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
   if(s===""){
     movePage(`https://www.youtube.com`);
@@ -457,57 +469,55 @@ function youtubeRedirect(regex){
   }
 }
 
-function sopanoteRedirect(regex){
-  const q=getQuery(window.location.href);
+function sopanoteRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   let s=regex.exec(q)[2];
   s = encodeURIComponent(s);
-  s = s.split('%5Cn').join('%0A'); // replace \n chars with new line, but all encoded 
+  s = s.split('%5Cn').join('%0A'); // replace \n chars with new line, but all encoded
   movePage(`https://yeltnar.github.io/soapnote/#${s}`);
 }
 
-function imbdRedirect(regex){
-  const q=getQuery(window.location.href);
+function imbdRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[1];
-  // debugger;
-  // alert(s);
   movePage(`https://www.imdb.com/find?q=${encodeURIComponent(s)}`);
 }
 
-function lazyReddit(regex){
-  const q=getQuery(window.location.href);
+function lazyReddit(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[0];
   console.log(`found reddit page ${s}`);
   movePage(`https://reddit.com/${s}`);
 }
 
-function youtubeDownload(regex){
-  const q=getQuery(window.location.href);
+function youtubeDownload(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
   console.log(`loading ${s} with alltubedownload`);
   movePage(`https://www.alltubedownload.net/info?url=${encodeURIComponent(s)}`);
 }
 
-function fdroidRedirect(regex){
-  const q=getQuery(window.location.href);
+function fdroidRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
   console.log(`loading ${s} with fdroidRedirect`);
   movePage(`https://search.f-droid.org/?q=${encodeURIComponent(s)}&lang=en`);
 }
 
-function apkmirrorRedirect(regex){
-  const q=getQuery(window.location.href);
+function apkmirrorRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
   console.log(`loading ${s} with apkmirrorRedirect`);
   movePage(`https://www.apkmirror.com/?searchtype=apk&s=${encodeURIComponent(s)}`);
 }
-function wikipediaRedirect(regex){
-  const q=getQuery(window.location.href);
+function wikipediaRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
   console.log(`loading ${s} with wikipediaRedirect`);
   movePage(`https://en.wikipedia.org/?search=${encodeURIComponent(s)}`)
 }
-function gmailRedirect(regex){
-  const q=getQuery(window.location.href);
+function gmailRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
   //
   console.log(`loading ${s} with gmailRedirect`);
@@ -517,8 +527,8 @@ function gmailRedirect(regex){
     movePage(`https://mail.google.com/mail/u/0/?pli=1#search/${encodeURIComponent(s)}`);
   }
 }
-function fastmailRedirect(regex){
-  const q=getQuery(window.location.href);
+function fastmailRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
   //
   console.log(`loading ${s} with fastmailRedirect`);
@@ -529,8 +539,8 @@ function fastmailRedirect(regex){
     // movePage(`https://mail.google.com/mail/u/0/?pli=1#search/${encodeURIComponent(s)}`);
   }
 }
-function workContainerRedirect(regex){
-  const q=getQuery(window.location.href);
+function workContainerRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   let link=regex.exec(q)[2];
   console.log(`loading ${link} with workContainerRedirect`);
 
@@ -542,29 +552,29 @@ function workContainerRedirect(regex){
   // movePage(link)
 }
 
-function upsTrackRedirect(regex){
-  const q=getQuery(window.location.href);
+function upsTrackRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
   //
   movePage(`https://www.ups.com/track?tracknum=${s}`);
 }
 
-function uspsTrackRedirect(regex){
-  const q=getQuery(window.location.href);
+function uspsTrackRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
   //
   movePage(`https://tools.usps.com/go/TrackConfirmAction!input.action?tLabels=${s}`);
 }
 
-function fedexTrackRedirect(regex){
-  const q=getQuery(window.location.href);
+function fedexTrackRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
 
   movePage(`https://www.fedex.com/fedextrack/?trknbr=${s}`);
 }
 
-function timeUntilRedirect(regex){
-  const q=getQuery(window.location.href);
+function timeUntilRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
 
   let url  = `https://yeltnar.github.io/time-until/`;
@@ -576,21 +586,21 @@ function timeUntilRedirect(regex){
   movePage(url);
 }
 
-function lanRedirect( regex ){
-  const q=getQuery(window.location.href);
+function lanRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
   movePage(`${q}`);
 }
 
-function aceHardwareRedirect(regex){
-  const q=getQuery(window.location.href);
+function aceHardwareRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[2];
 
   movePage(`https://www.acehardware.com/search?query=${s}`);
 }
 
-function genericRedirect(regex, regex_res_index, base_str){
-  const q=getQuery(window.location.href);
+function genericRedirect(regex, regex_res_index, base_str, query){
+  const q=query;
   const s=regex.exec(q)[regex_res_index];
 
   movePage(`${base_str}${s}`);
