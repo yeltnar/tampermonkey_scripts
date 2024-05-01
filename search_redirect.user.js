@@ -29,6 +29,16 @@
 
 let url_loaded="";
 
+window.onload = ()=>{
+  // read content of search box for start page
+  const search_box = document.querySelector('#q');
+  if(search_box!==null ){
+    console.log('found start page search box');
+    const value = search_box.value;
+    main(value);
+  }
+}
+
 function main(query){
 
   const redirect_list = [
@@ -470,8 +480,6 @@ function sopanoteRedirect(regex, regex_res_index, base_str, query){
 function imbdRedirect(regex, regex_res_index, base_str, query){
   const q=query;
   const s=regex.exec(q)[1];
-  // debugger;
-  // alert(s);
   movePage(`https://www.imdb.com/find?q=${encodeURIComponent(s)}`);
 }
 
