@@ -19,7 +19,7 @@
 // @grant       GM_removeValueChangeListener
 // @grant       GM_setValue
 // @grant       GM_notification
-// @version     0.66
+// @version     0.67
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
@@ -335,6 +335,10 @@ async function movePage(new_url){
   if(url_loaded!==""){
     GM_notification({title:'loading page twice', text:`old: ${url_loaded}, new: ${new_url}`});
     throw new Error('second move; turn back on closeOldUrl');
+  }
+
+  if( !/^http/.test(new_url) ){
+    new_url = `https://${new_url}`;
   }
 
   url_loaded=new_url;
