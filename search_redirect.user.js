@@ -19,7 +19,7 @@
 // @grant       GM_removeValueChangeListener
 // @grant       GM_setValue
 // @grant       GM_notification
-// @version     0.67
+// @version     0.68
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
@@ -199,7 +199,7 @@ function main(query){
       base_str:`https://www.zillow.com/homes/`
     },
     {
-      regex:/(.*\.lan)/,
+      regex:/(([^\s]*\.lan))/,
       funct: lanRedirect,
     },
     {
