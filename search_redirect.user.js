@@ -19,7 +19,7 @@
 // @grant       GM_removeValueChangeListener
 // @grant       GM_setValue
 // @grant       GM_notification
-// @version     0.68
+// @version     0.69
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
@@ -207,6 +207,12 @@ function main(query){
       generic: true,
       regex_res_index:2,
       base_str:`https://www.bestbuy.com/site/searchpage.jsp?st=`
+    },
+    {
+      regex:/^(target) (.*)/,
+      generic: true,
+      regex_res_index:2,
+      base_str:`https://www.target.com/s?searchTerm=`
     },
     {
       regex:/^(whois) (.*)/,
