@@ -19,7 +19,7 @@
 // @grant       GM_removeValueChangeListener
 // @grant       GM_setValue
 // @grant       GM_notification
-// @version     0.70
+// @version     0.71
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
@@ -219,6 +219,10 @@ function main(query){
       generic: true,
       regex_res_index:2,
       base_str:`https://who.is/whois/`
+    },
+    {
+      regex: /nixos manual/,
+      url: `https://nixos.org/manual/nixos/stable/`
     },
     {
       regex:/^(-nixos) (.*)/,
@@ -630,4 +634,5 @@ function defaultResult(){
     }
   }
 }
+
 
