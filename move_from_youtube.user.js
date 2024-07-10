@@ -1,10 +1,10 @@
 // ==UserScript==
-// @name        move to youtube transcript
+// @name        move from youtube  
 // @namespace   andbrant
 // @match       https://www.youtube.com/watch*
 // @grant       GM_registerMenuCommand
 // @grant       GM_openInTab
-// @version     0.2
+// @version     0.3
 // @author      -
 // @dont-require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
 // @dont-require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/textEleSearch.notauser.js
@@ -15,19 +15,6 @@
   'use strict';
 
   console.log("reviewmeta drew");
-
-  const moveToYoutubeTranscript=()=>{
-    const qp = new URLSearchParams(window.location.search);
-    const v = qp.get('v');
-    // alert({v);
-    console.log({
-      v,
-      qp,
-      "findmedrew":"findmedrew",
-    });
-    const new_url = `https://youtubetranscript.com/?v=${v}`;
-    movePage(new_url);
-  }
 
   function moveToYoutubeTranscript(){
     const video_id = new URLSearchParams(window.location.search).get("v");
