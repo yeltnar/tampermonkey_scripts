@@ -4,7 +4,7 @@
 // @match       https://www.youtube.com/watch*
 // @grant       GM_registerMenuCommand
 // @grant       GM_openInTab
-// @version     0.3
+// @version     0.4
 // @author      -
 // @dont-require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
 // @dont-require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/textEleSearch.notauser.js
@@ -22,7 +22,6 @@
     movePage(new_url)
   };
 
-  GM_registerMenuCommand("moveToYoutubeTranscript", moveToYoutubeTranscript);
   GM_registerMenuCommand("Move to YouTube Transcript",moveToYoutubeTranscript);
 })();
 
