@@ -19,7 +19,7 @@
 // @grant       GM_removeValueChangeListener
 // @grant       GM_setValue
 // @grant       GM_notification
-// @version     0.74
+// @version     0.75
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
@@ -231,19 +231,19 @@ function main(query){
       base_str:`https://search.nixos.org/packages?query=`
     },
     {
-      regex: /(ggp) (.*)/,
+      regex: /^(ggp) (.*)/,
       generic: true,
       regex_res_index:2,
       base_str: `https://gprivate.com/search/?q=`
     },
     {
-      regex: /(protondb) (.*)/,
+      regex: /^(protondb) (.*)/,
       generic: true,
       regex_res_index:2,
       base_str: `https://www.protondb.com/search?q=`
     },
     {
-      regex: /(satisfactory) (.*)/,
+      regex: /^(satisfactory) (.*)/,
       generic: true,
       regex_res_index:2,
       base_str: `https://satisfactory.fandom.com/wiki/Special:Search?query=`
