@@ -3,7 +3,7 @@
 // @namespace   andbrant
 // @match       https://www.amazon.com/*
 // @grant       GM_registerMenuCommand
-// @version     0.7
+// @version     0.8
 // @author      github/yeltnar
 // @dont-require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
 // @dont-require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/textEleSearch.notauser.js
@@ -13,7 +13,18 @@
 // TODO need no autoload or smart autoload
 
 function simpleAmazonURL(){
-  let product = /\/(([A-Z]|[0-9]){10})/.exec(window.location.href)[1];
+
+  const regex = /\/(([A-Z]|[0-9]){10})/g;
+  let product;
+  const match_list = Array.from(window.location.href.matchAll(regex));
+
+  // make sure there is a nubmber in the ASIN
+  let validate_regex = /[0-9]/;
+  for( let k in match_list ){
+    if(validate_regex.test(match_list[k][1])){
+      product = match_list[k][1];
+    }
+  }
 
   // don't redirect wishlists
   if( window.location.href.includes('wishlist') ){
