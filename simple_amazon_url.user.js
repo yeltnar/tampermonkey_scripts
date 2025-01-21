@@ -53,6 +53,10 @@ function simpleAmazonURL(){
     return
   }
 
+  if(product === undefined || product === null){
+    return;
+  }
+
   console.log({
     msg:"moving to simple page",
     href: window.location.href,
