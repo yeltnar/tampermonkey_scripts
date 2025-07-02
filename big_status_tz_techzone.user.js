@@ -8,7 +8,7 @@
 // @match       https://techzone.ibm.com/my/reservations/ibmcloud-2/669ffce2720bb3001ec1960c
 // @grant       none
 // @run-at document-end // document-start // document-idle
-// @version     1.0
+// @version     1.1
 // @author      -
 // @grant        GM_setValue
 // @grant        GM_getValue
@@ -117,7 +117,10 @@
 
   // look for `Status:`
   // await timeoutPromise(5000);
-  const status_element = await waitOnElement('Status');
+  let status_element = await waitOnElement('Status');
+  if( Array.isArray(status_element) ){
+    status_element = status_element[0];
+  }
   const status_text = status_element.innerText;
   const parent_text = status_element.parentElement.innerText;
   const actual_text = new RegExp(`${status_text} (.*)`).exec(parent_text)[1];
@@ -146,7 +149,7 @@
 
   document.body.appendChild(div);
 
-  if( actual_text === 'Provisioning' ){
+  if( actual_text === 'Provisioning' || actual_text === 'Scheduled' ){
     console.log('setting timeout')
     await timeoutPromise(30*1000);
     console.log('reloading')
