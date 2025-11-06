@@ -3,7 +3,7 @@
 // @namespace   andbrant
 // @match       https://www.amazon.com/*
 // @grant       GM_registerMenuCommand
-// @version     0.8
+// @version     0.9
 // @author      github/yeltnar
 // @dont-require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
 // @dont-require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/textEleSearch.notauser.js
@@ -45,6 +45,11 @@ function simpleAmazonURL(){
 
   // don't redirect reviews
   if( window.location.href.includes('product-reviews') ){
+    return
+  }
+
+  // don't redirect customer reviews
+  if( window.location.href.includes('customer-reviews') ){
     return
   }
 
