@@ -58,6 +58,11 @@ function simpleAmazonURL(){
     return
   }
 
+  // don't music pages
+  if( window.location.href.includes(`music/player/artists`) ){
+    return
+  }
+
   if(product === undefined || product === null){
     return;
   }
