@@ -3,7 +3,7 @@
 // @namespace   andbrant
 // @match       https://musicbrainz.org/*auto_music*
 // @grant       none
-// @version     0.1.1
+// @version     0.2
 // @author      -
 // @dont-require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
 // @dont-require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/textEleSearch.notauser.js
@@ -44,10 +44,13 @@ async function getReleaseGroupFromBarcode(barcode) {
   }
 }
 
+const query = new URLSearchParams(window.location.search).get('query')
+
 // Example Usage:
-getReleaseGroupFromBarcode('075678657238').then(result => {
+getReleaseGroupFromBarcode(query).then(result => {
   console.log("Album Info:", result);
   return result;
 }).then((result)=>{
   window.location.href = `https://lidarr.h.lan/add/search?term=lidarr%3A${result.releaseGroupId}`;
 });
+
