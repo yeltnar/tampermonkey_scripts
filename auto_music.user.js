@@ -1,9 +1,12 @@
 // ==UserScript==
 // @name        auto_music
 // @namespace   andbrant
-// @match       https://musicbrainz.org/*auto_music*
-// @grant       none
-// @version     0.2
+// @not-match       https://musicbrainz.org/*auto_music*
+// @match       https://musicbrainz.org/*
+// @grant        GM_setValue
+// @grant        GM_getValue
+// @grant        GM_registerMenuCommand
+// @version     0.3
 // @author      -
 // @dont-require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
 // @dont-require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/textEleSearch.notauser.js
@@ -46,11 +49,20 @@ async function getReleaseGroupFromBarcode(barcode) {
 
 const query = new URLSearchParams(window.location.search).get('query')
 
-// Example Usage:
-getReleaseGroupFromBarcode(query).then(result => {
-  console.log("Album Info:", result);
-  return result;
-}).then((result)=>{
-  window.location.href = `https://lidarr.h.lan/add/search?term=lidarr%3A${result.releaseGroupId}`;
+GM_registerMenuCommand("move to lidarr", ()=>{
+  const id = new RegExp(/\/([^/]+)$/).exec(window.location.href)[1]
+  const uri = `https://lidarr.h.lan/add/search?term=lidarr%3A${id}`;
+  console.log({uri});
+  window.location.href = uri;
 });
+
+// if have auto music, run that script
+if(new RegExp('https://musicbrainz.org/*auto_music*').test(window.location.href)){
+  getReleaseGroupFromBarcode(query).then(result => {
+    console.log("Album Info:", result);
+    return result;
+  }).then((result)=>{
+    window.location.href = `https://lidarr.h.lan/add/search?term=lidarr%3A${result.releaseGroupId}`;
+  });
+}
 
