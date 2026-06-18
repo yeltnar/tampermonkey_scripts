@@ -19,7 +19,7 @@
 // @grant       GM_removeValueChangeListener
 // @grant       GM_setValue
 // @grant       GM_notification
-// @version     0.83
+// @version     0.84
 // @author      yeltnar
 // @description 1/7/2021, 9:52:00 AM
 // @require     https://github.com/yeltnar/tampermonkey_scripts/raw/master/timeoutPromise.notauser.js
@@ -53,6 +53,10 @@ function main(query){
     {
       regex:/ ?css ?grid(layout)? ?/,
       url:`https://css-tricks.com/snippets/css/complete-guide-grid/`
+    },
+    {
+      regex:/ ?hyprland wiki ?/,
+      url:`https://wiki.hypr.land/`
     },
     {
       regex:/ ?firefox ?store ?/,
